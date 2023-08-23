@@ -13,7 +13,7 @@ namespace s21 {
 
         std::string posifix = to_posifix(expression, x);
 
-z
+
         return std::string();
     }
 
