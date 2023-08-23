@@ -20,6 +20,7 @@ namespace s21 {
     std::string Model::to_posifix(const std::string &expression, const std::string &x) {
         std::string posifix_expression;
 
+
         return std::string();
     }
 
