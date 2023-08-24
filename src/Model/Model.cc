@@ -75,7 +75,16 @@ namespace s21 {
     }
 
     std::string Model::is_operator(const std::string &infix, size_t i) {
-        return std::string();
+        std::string operat = "!";
+        if (is_arithmetic_operator(infix[i])) {
+            operat = infix[i];
+        }
+        return operat;
+    }
+
+    bool Model::is_arithmetic_operator(const char &letter) {
+        return (letter == '+' || letter == '-' || letter == '*'
+        || letter == '/' || letter == '%' || letter == '^');
     }
 
 

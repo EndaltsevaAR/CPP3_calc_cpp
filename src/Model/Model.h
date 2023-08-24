@@ -25,6 +25,8 @@ namespace s21 {
         static bool is_string_number(const std::string &expression);
 
         std::string is_operator(const std::string &infix, size_t i);
+
+        bool is_arithmetic_operator(const char &letter);
     };
 
 } // s21
