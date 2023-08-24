@@ -24,9 +24,15 @@ namespace s21 {
 
         static bool is_string_number(const std::string &expression);
 
-        std::string is_operator(const std::string &infix, size_t i);
+        static std::string is_operator(const std::string &infix, size_t i);
 
-        bool is_arithmetic_operator(const char &letter);
+        static bool is_one_letter_operator(const char &letter);
+
+        static std::string get_function(const std::string &infix, size_t i);
+
+        static int getPriority(const std::string& operat);
+
+        static bool isUnarOperator(std::string infix, size_t count);
     };
 
 } // s21
