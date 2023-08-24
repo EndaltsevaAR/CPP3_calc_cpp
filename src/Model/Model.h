@@ -21,6 +21,10 @@ namespace s21 {
         const std::string ERROR = "ERROR";
 
         std::string to_posifix(const std::string &expression, const std::string &x);
+
+        static bool is_string_number(const std::string &expression);
+
+        std::string is_operator(const std::string &infix, size_t i);
     };
 
 } // s21
