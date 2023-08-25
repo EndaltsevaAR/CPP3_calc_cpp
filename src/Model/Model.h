@@ -19,6 +19,7 @@ namespace s21 {
         // static constants
         const int STACK_SIZE = 255;
         const std::string ERROR = "ERROR";
+        const double s21_EPS_TEST = 1e-7;
 
         std::string to_posifix(const std::string &expression, const std::string &x);
 
@@ -33,6 +34,20 @@ namespace s21 {
         static int getPriority(const std::string& operat);
 
         static bool isUnarOperator(std::string infix, size_t count);
+
+        static bool isEngineeringFunction(const std::string &operat);
+
+        std::string calculate(std::string posifix, const std::string &x);
+
+        static std::vector<std::string> tokenizeString(const std::string& posifix);
+
+        static bool isOperatorTwoParametrs(std::string &token);
+
+        bool doTwoOperator(std::string &operat, double operand1, double operand2, double *pDouble);
+
+        bool is_correct_pow_arguments(double operand1, double operand2);
+
+        bool doOneOperator(std::string &operat, double operand, double *answer);
     };
 
 } // s21
