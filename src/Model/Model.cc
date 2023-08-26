@@ -196,7 +196,7 @@ namespace s21 {
                operat == "atan" || operat == "ln" || operat == "lg" || operat == "sqrt";
     }
 
-    std::string Model::calculate(std::string posifix, const std::string &x) {
+    std::string Model::calculate(const std::string& posifix, const std::string &x) {
         std::string answer = ERROR;
         int flag_status = true;
         std::list<double> doubleList;
@@ -214,20 +214,20 @@ namespace s21 {
                 doubleList.push_back(std::stod(x));
             } else {
                 double oper_result = 0.0;
-                double operand2 = 0.0;
+                double operand2;
                 if (!doubleList.empty()) {
                     operand2 = doubleList.back();
                     doubleList.pop_back();
                     if (isOperatorTwoParametrs(*it)) {
-                        double operand1 = 0.0;
+                        double operand1;
                         if (!doubleList.empty()) {
                             operand1 = doubleList.back();
                             doubleList.pop_back();
+                            flag_status = doTwoOperator(*it, operand1, operand2, &oper_result);
                         } else {
                             std::cout << "Stack is empty, there is no operator in" << std::endl;
                             flag_status = false;
                         }
-                        flag_status = doTwoOperator(*it, operand1, operand2, &oper_result);
                     } else {
                         flag_status = doOneOperator(*it, operand2, &oper_result);
                     }
@@ -244,6 +244,10 @@ namespace s21 {
         if (doubleList.size() != 1) {
             std::cout << "There is not enough operators or functions" << std::endl;
             flag_status = false;
+        }
+
+        if (!flag_status) {
+            answer = ERROR;
         }
 
         return answer;
@@ -296,7 +300,7 @@ namespace s21 {
         return flag_status;
     }
 
-    bool Model::is_correct_pow_arguments(double operand1, double operand2) {
+    bool Model::is_correct_pow_arguments(double operand1, double operand2) const {
         bool flag_status = true;
         // 0 в отрицательной степени  возвращает бесконечность
         // возведение в дабловскую степень отрицательное число - -nan
@@ -307,7 +311,7 @@ namespace s21 {
         return flag_status;
     }
 
-    bool Model::doOneOperator(std::string &operat, double operand, double *answer) {
+    bool Model::doOneOperator(std::string &operat, double operand, double *answer) const {
         bool flag_status = true;
         if (operat == "sin") {
             *answer = std::sin(operand);

@@ -37,7 +37,7 @@ namespace s21 {
 
         static bool isEngineeringFunction(const std::string &operat);
 
-        std::string calculate(std::string posifix, const std::string &x);
+        std::string calculate(const std::string& posifix, const std::string &x);
 
         static std::vector<std::string> tokenizeString(const std::string& posifix);
 
@@ -45,9 +45,9 @@ namespace s21 {
 
         bool doTwoOperator(std::string &operat, double operand1, double operand2, double *pDouble);
 
-        bool is_correct_pow_arguments(double operand1, double operand2);
+        bool is_correct_pow_arguments(double operand1, double operand2) const;
 
-        bool doOneOperator(std::string &operat, double operand, double *answer);
+        bool doOneOperator(std::string &operat, double operand, double *answer) const;
     };
 
 } // s21
