@@ -11,17 +11,16 @@ namespace s21 {
 
     class Model {
     public:
-
+        static const std::string ERROR = "ERROR";
         std::string commonCalcStart(const std::string &expression, const std::string &x);
 
 
     private:
         // static constants
-        const int STACK_SIZE = 255;
-        const std::string ERROR = "ERROR";
+        const size_t STACK_SIZE = 255;
         const double s21_EPS_TEST = 1e-7;
 
-        std::string to_posifix(const std::string &expression, const std::string &x);
+        static std::string to_posifix(const std::string &expression, const std::string &x);
 
         static bool is_string_number(const std::string &expression);
 
