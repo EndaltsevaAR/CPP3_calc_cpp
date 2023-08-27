@@ -1264,6 +1264,212 @@ TEST_F(ModelTest, s21_calc_pow_29_test) {
     EXPECT_EQ(result, std::to_string(std::pow(1.0, 1.0)));
 }
 
+// complicated tests
+// good tests
+
+TEST_F(ModelTest, s21_calc_comp_good_1_test) {
+    std::string expression = "5 + 6 * 2 - 4 / 2";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer = 5 + 6 * 2 - 4 / 2; // 15
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_2_test) {
+    std::string expression = "(3 + 4) * 2 / (6 - 2)";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer = (3 + 4) * 2 / (6 - 2); // 3.5
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_3_test) {
+    std::string expression = "8 / 2 + (5 - 3) * 4";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer = 8 / 2 + (5 - 3) * 4; // 12
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_4_test) {
+    std::string expression = "2 * 3 + 8 / 4 - 1";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer = 2 * 3 + 8 / 4 - 1; // 7
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_5_test) {
+    std::string expression = "(10.0 - 3) / (4 + 1) * 2 - 1";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer = (10.0 - 3) / (4 + 1) * 2 - 1; // 1.8
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_6_test) {
+    std::string expression = "sin(1.0) + ln(10.0) - log(100.0) + 2.0^3.0 mod 5.0";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer =  std::sin(1.0) + std::log(10.0) - std::log10(100.0) + std::fmod(std::pow(2.0, 3.0), 5.0); // 4.143
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_7_test) {
+    std::string expression = "cos(0.5) * log(1000.0) - sqrt(25.0) + 2.0^4.0 mod 3.0";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer =  std::cos(0.5) * std::log10(1000.0) - std::sqrt(25.0) + std::fmod(std::pow(2.0, 4.0), 3.0); // -1.369
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_8_test) {
+    std::string expression = "(log(10000.0) - sin(0.75) + sqrt(16.0) + 3.0^3.0) mod 7.0";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer =  std::fmod(log10(10000.0) - std::sin(0.75) + std::sqrt(16.0) + (std::pow(3.0, 3.0)), 7.0); // 6.319
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+TEST_F(ModelTest, s21_calc_comp_good_9_test) {
+    std::string expression = "sin(cos(tan(0)))";
+    std::string result = model.commonCalcStart(expression, X);
+    double answer =  std::sin(std::cos(std::tan(0))); // 0.84147
+    EXPECT_EQ(result, std::to_string(answer));
+}
+
+// error tests
+
+TEST_F(ModelTest, s21_calc_comp_error_1_test) {
+    std::string expression = "sin(log(-2) ^ 2) mod 4";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_comp_error_2_test) {
+    std::string expression = "cos(1 / 0)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_comp_error_3_test) {
+    std::string expression = "tan(sqrt(3) * log(0))";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_comp_error_4_test) {
+    std::string expression = "log(sqrt(-1))";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+// pi
+
+TEST_F(ModelTest, s21_calc_pi_1_test) {
+    std::string expression = "2p";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pi_2_test) {
+    std::string expression = "-2p";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pi_3_test) {
+    std::string expression = "p2";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pi_4_test) {
+    std::string expression = "+p2";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pi_5_test) {
+    std::string expression = "p.2";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pi_6_test) {
+    std::string expression = "acos(p)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pi_7_test) {
+    std::string expression = "asin(p)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pi_8_test) {
+    std::string expression = "cos(p)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::cos(M_PI)));
+}
+
+TEST_F(ModelTest, s21_calc_pi_9_test) {
+    std::string expression = "sin(p)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::sin(M_PI)));
+}
+
+TEST_F(ModelTest, s21_calc_pi_10_test) {
+    std::string expression = "tan(p)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::tan(M_PI)));
+}
+
+TEST_F(ModelTest, s21_calc_pi_11_test) {
+    std::string expression = "sqrt(p)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::sqrt(M_PI)));
+}
+
+TEST_F(ModelTest, s21_calc_pi_12_test) {
+    std::string expression = "6modp";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::fmod(6.0, M_PI)));
+}
+
+// extra tests
+TEST_F(ModelTest, s21_calc_empty_imput) {
+    std::string expression = "";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_empty_x) {
+    std::string expression = "x";
+    std::string  x = "";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_number_x) {
+    std::string expression = "7x";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_number_number) {
+    std::string expression = "7 1";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pow_pow_test) {
+    std::string expression = "2^2^2^2";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, "65536.0000000");
+}
+
+TEST_F(ModelTest, s21_calc_pow_mul_test) {
+    std::string expression = "2^3*3^2";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, "72.0000000");
+}
+
+
+
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
