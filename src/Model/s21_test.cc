@@ -680,6 +680,354 @@ TEST_F(ModelTest, s21_calc_tan_atan_10_test) {
     EXPECT_EQ(result2, s21::Model::ERROR);
 }
 
+// log + ln
+
+TEST_F(ModelTest, s21_calc_log_ln_1_test) {
+    std::string expression1 = "log(1.0)";
+    std::string expression2 = "ln(1.0)";
+    std::string result1 = model.commonCalcStart(expression1, X);
+    std::string result2 = model.commonCalcStart(expression2, X);
+    EXPECT_EQ(result1, std::to_string(std::log10(1.0)));
+    EXPECT_EQ(result2, std::to_string(std::log(1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_log_ln_2_test) {
+    std::string expression1 = "log(-1.0)";
+    std::string expression2 = "ln(-1.0)";
+    std::string result1 = model.commonCalcStart(expression1, X);
+    std::string result2 = model.commonCalcStart(expression2, X);
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_log_ln3_test) {
+    std::string expression1 = "log(2147483646.0)";
+    std::string expression2 = "ln(2147483646.0)";
+    std::string result1 = model.commonCalcStart(expression1, X);
+    std::string result2 = model.commonCalcStart(expression2, X);
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_log_ln_4_test) {
+    std::string expression1 = "log(-2147483646.0)";
+    std::string expression2 = "ln(-2147483646.0)";
+    std::string result1 = model.commonCalcStart(expression1, X);
+    std::string result2 = model.commonCalcStart(expression2, X);
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_log_ln_5_test) {
+    std::string expression1 = "log(0.0)";
+    std::string expression2 = "ln(0.0)";
+    std::string result1 = model.commonCalcStart(expression1, X);
+    std::string result2 = model.commonCalcStart(expression2, X);
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_log_ln_6_test) {
+    std::string expression1 = "log(-1.123456)";
+    std::string expression2 = "ln(-1.123456)";
+    std::string result1 = model.commonCalcStart(expression1, X);
+    std::string result2 = model.commonCalcStart(expression2, X);
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_log_ln_7_test) {
+    std::string expression1 = "log(1.123456)";
+    std::string expression2 = "ln(1.123456)";
+    std::string result1 = model.commonCalcStart(expression1, X);
+    std::string result2 = model.commonCalcStart(expression2, X);
+    EXPECT_EQ(result1, std::to_string(std::log10(1.123456)));
+    EXPECT_EQ(result2, std::to_string(std::log(1.123456)));
+}
+
+TEST_F(ModelTest, s21_calc_log_ln_8_test) {
+    std::string expression1 = "log(x)";
+    std::string expression2 = "ln(x)";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result1 = model.commonCalcStart(expression1, x);
+        std::string result2 = model.commonCalcStart(expression2, x);
+        EXPECT_EQ(result1, std::to_string(std::log10(number)));
+        EXPECT_EQ(result2, std::to_string(std::log(number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_log_9_test) {
+    std::string expression1 = "log(x)";
+    std::string expression2 = "ln(x)";
+    for (double number = -1.0; number < 0.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result1 = model.commonCalcStart(expression1, x);
+        std::string result2 = model.commonCalcStart(expression2, x);
+        EXPECT_EQ(result1, s21::Model::ERROR);
+        EXPECT_EQ(result2, s21::Model::ERROR);
+    }
+}
+
+// sqrt
+TEST_F(ModelTest, s21_calc_sqrt_1_test) {
+    std::string expression = "sqrt(1.0)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::sqrt(1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_2_test) {
+    std::string expression = "sqrt(-1.0)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_3_test) {
+    std::string expression = "sqrt(2147483646.0)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_4_test) {
+    std::string expression = "sqrt(-2147483646.0)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_5_test) {
+    std::string expression = "sqrt(0.0)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::sqrt(0.0)));
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_6_test) {
+    std::string expression = "sqrt(-1.123456)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_7_test) {
+    std::string expression = "sqrt(1.123456)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::sqrt(1.123456)));
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_8_test) {
+    std::string expression = "sqrt(x)";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::sqrt(number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_sqrt_9_test) {
+    std::string expression = "sqrt(x)";
+    for (double number = -1.0; number < 0.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+// mod
+
+TEST_F(ModelTest, s21_calc_mod_1_test) {
+    std::string expression = "1 mod x";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::fmod(1.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_2_test) {
+    std::string expression = "0.0mod1.0";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::fmod(0.0, 1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_3_test) {
+    std::string expression = "0.0 mod 0.0";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_mod_4_test) {
+    std::string expression = "1.0 mod 0.0";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::fmod(1.0, 0.0)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_5_test) {
+    std::string expression = "0 mod x";
+    for (double number = 2.0; number < 1000.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::fmod(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_6_test) {
+    std::string expression = "x mod 0";
+    for (double number = 2.0; number < 1000.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_7_test) {
+    std::string expression = "0 mod x";
+    for (double number = 2.0; number < 1000.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::fmod(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_8_test) {
+    std::string expression = "x mod 0";
+    for (double number = 2.0; number < 1000.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_9_test) {
+    std::string expression = "0 mod x";
+    for (double number = -1000.0; number < 0.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::fmod(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_10_test) {
+    std::string expression = "x mod 0";
+    for (double number = -1000.0; number < 0.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_11_test) {
+    std::string expression = "0 mod x";
+    for (double number = -1000.0; number < 0.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::fmod(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_12_test) {
+    std::string expression = "x mod 0";
+    for (double number = -1000.0; number < 0.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_13_test) {
+    std::string expression = "0 mod x";
+    for (double number = -1.0; number < 0.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::fmod(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_14_test) {
+    std::string expression = "x mod 0";
+    for (double number = -1.0; number < 0.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_15_test) {
+    std::string expression = "0 mod x";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::fmod(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_16_test) {
+    std::string expression = "x mod 0";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_mod_17_test) {
+    std::string expression = "0 mod x";
+    std::string x = "1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::fmod(0.0, 1234567891.234567)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_18_test) {
+    std::string expression = "x mod 0";
+    std::string x = "1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_mod_19_test) {
+    std::string expression = "0 mod x";
+    std::string x = "-1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::fmod(0.0, -1234567891.234567)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_20_test) {
+    std::string expression = "x mod 0";
+    std::string x = "-1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_mod_21_test) {
+    std::string expression = "1 mod x";
+    std::string x = "1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::fmod(1.0, 1234567891.234567)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_22_test) {
+    std::string expression = "x mod 1";
+    std::string x = "1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::fmod(1234567891.234567, 1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_23_test) {
+    std::string expression = "1 mod x";
+    std::string x = "-1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::fmod(1.0, -1234567891.234567)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_24_test) {
+    std::string expression = "x mod 1";
+    std::string x = "-1234567891.234567";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::fmod(-1234567891.234567, 1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_mod_25_test) {
+    std::string expression = "md(1)";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
 
 
 
