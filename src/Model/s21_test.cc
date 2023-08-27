@@ -1029,6 +1029,240 @@ TEST_F(ModelTest, s21_calc_mod_25_test) {
     EXPECT_EQ(result, s21::Model::ERROR);
 }
 
+// pow
+
+TEST_F(ModelTest, s21_calc_pow_1_test) {
+    std::string expression = "1 ^ x";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(1.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_2_test) {
+    std::string expression = "0.0^1.0";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::pow(0.0, 1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_3_test) {
+    std::string expression = "0.0^0.0";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::pow(0.0, 0.0)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_4_test) {
+    std::string expression = "1.0^0.0";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::pow(1.0, 0.0)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_5_test) {
+    std::string expression = "0 ^ x";
+    for (double number = 2.0; number < 1000.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_6_test) {
+    std::string expression = "x ^ 0";
+    for (double number = 2.0; number < 1000.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(number, 0.0)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_7_test) {
+    std::string expression = "0 ^ x";
+    for (double number = 2.0; number < 1000.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_8_test) {
+    std::string expression = "x ^ 0";
+    for (double number = 2.0; number < 1000.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(number, 0.0)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_9_test) {
+    std::string expression = "0 ^ x";
+    for (double number = -1000.0; number < 0.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_10_test) {
+    std::string expression = "x ^ 0";
+    for (double number = -1000.0; number < 0.0; number += 123) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(number, 0.0)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_11_test) {
+    std::string expression = "0 ^ x";
+    for (double number = -1000.0; number < 0.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_12_test) {
+    std::string expression = "x ^ 0";
+    for (double number = -1000.0; number < 0.0; number += 123.456789) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(number, 0.0)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_13_test) {
+    std::string expression = "0 ^ x";
+    for (double number = -1.0; number < 0.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_14_test) {
+    std::string expression = "x ^ 0";
+    for (double number = -1.0; number < 0.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(number, 0.0)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_15_test) {
+    std::string expression = "0 ^ x";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(0.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_16_test) {
+    std::string expression = "x ^ 0";
+    for (double number = 0.1; number < 1.0; number += 0.123456) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(number, 0.0)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_17_test) {
+    std::string expression = "0 ^ x";
+    std::string x = std::to_string(1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::pow(0.0, 1234567891.234567)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_18_test) {
+    std::string expression = "x ^ 0";
+    std::string x = std::to_string(1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::pow(1234567891.234567, 0.0)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_19_test) {
+    std::string expression = "0 ^ x";
+    std::string x = std::to_string(-1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
+TEST_F(ModelTest, s21_calc_pow_20_test) {
+    std::string expression = "x ^ 0";
+    std::string x = std::to_string(-1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::pow(-1234567891.234567, 0.0)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_21_test) {
+    std::string expression = "1 ^ x";
+    std::string x = std::to_string(1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::pow(1.0, 1234567891.234567)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_22_test) {
+    std::string expression = "x ^ 1";
+    std::string x = std::to_string(1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::pow(1234567891.234567, 1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_23_test) {
+    std::string expression = "1 ^ x";
+    std::string x = std::to_string(-1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::pow(1.0, -1234567891.234567)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_24_test) {
+    std::string expression = "x ^ 1";
+    std::string x = std::to_string(-1234567891.234567);
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, std::to_string(std::pow(-1234567891.234567, 1.0)));
+}
+
+TEST_F(ModelTest, s21_calc_pow_25_test) {
+    std::string expression = "2 ^ x";
+    for (double number = 2.0; number < 5.0; number += 1.0) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(2.0, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_26_test) {
+    std::string expression = "2.2 ^ x";
+    for (double number = 2.0; number < 5.0; number += 1.0) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, std::to_string(std::pow(2.2, number)));
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_27_test) {
+    std::string expression = "-2.2 ^ x";
+    for (double number = 2.0; number < 5.0; number += 1.0) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_28_test) {
+    std::string expression = "-2.2 ^ x";
+    for (double number = -2.2; number < 0.0; number += 0.7) {
+        std::string x = std::to_string(number);
+        std::string result = model.commonCalcStart(expression, x);
+        EXPECT_EQ(result, s21::Model::ERROR);
+    }
+}
+
+TEST_F(ModelTest, s21_calc_pow_29_test) {
+    std::string expression = "1 ^ 1";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, std::to_string(std::pow(1.0, 1.0)));
+}
 
 
 int main(int argc, char **argv) {
