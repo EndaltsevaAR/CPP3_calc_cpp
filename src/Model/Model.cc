@@ -61,7 +61,7 @@ namespace s21 {
                     posifix.push_back(' ');
                 }
             } else if (inf_letter == '(') {
-                operatorList.push_back(infix.substr(infix_count, 1));
+                operatorList.push_back("(");
             } else if (inf_letter == ')') {
                 bool isOpenBracket = false;
                 while (!operatorList.empty() && !isOpenBracket) {
@@ -81,7 +81,7 @@ namespace s21 {
             } else if (inf_letter == ' ') {
                 continue;
             } else if (operat != "!") { // операторы
-                if (isUnarOperator(operat, infix_count)) {
+                if (isUnarOperator(infix, infix_count)) {
                     if (operat == "-") {
                         posifix.push_back(inf_letter);
                     }
@@ -108,10 +108,15 @@ namespace s21 {
 
         }
         if (flag_status) {
-            while (!operatorList.empty()) {
-                posifix.append(operatorList.back());
-                posifix.push_back(' ');
-                operatorList.pop_back();
+            while (!operatorList.empty() && flag_status) {
+                if (operatorList.back() == "(") {
+                    std::cout << "There is just open bracket!" << std::endl;
+                    flag_status = false;
+                } else {
+                    posifix.append(operatorList.back());
+                    posifix.push_back(' ');
+                    operatorList.pop_back();
+                }
             }
         }
 
@@ -125,7 +130,10 @@ namespace s21 {
     bool Model::is_string_number(const std::string &expression) {
         bool is_number = true;
         bool has_dot = false;
-        for (size_t i = 0; i < expression.size() && is_number; ++i) {
+        if (!(isdigit(expression[0]) || expression[0] == 'x' || (expression[0] == '-' && expression.size() != 1))) {
+            is_number = false;
+        }
+        for (size_t i = 1; i < expression.size() && is_number; ++i) {
             if (expression[i] == '.' && !has_dot) {
                 has_dot = true;
             } else if (!isdigit(expression[i])) {
@@ -210,11 +218,15 @@ namespace s21 {
         for (auto it = tokens.begin(); it != tokens.end() && flag_status; ++it) {
             if (*it == "p") {
                 doubleList.push_back(M_PI);
+            } else if (*it == "x" || (it->size() > 1 && it->at(1) == 'x')) {
+                if (it->at(0) == '-') {
+                    doubleList.push_back(-std::stod(x));
+                } else {
+                    doubleList.push_back(std::stod(x));
+                }
             } else if (is_string_number(*it)) {
                 doubleList.push_back(std::stod(*it));
-            } else if (*it == "x") {
-                doubleList.push_back(std::stod(x));
-            } else {
+            }  else {
                 double oper_result = 0.0;
                 double operand2;
                 if (!doubleList.empty()) {
@@ -250,8 +262,10 @@ namespace s21 {
 
         if (!flag_status) {
             answer = ERROR;
+        } else {
+            answer = std::to_string(doubleList.back());
         }
-        answer = std::to_string(doubleList.back());
+
         return answer;
     }
 
