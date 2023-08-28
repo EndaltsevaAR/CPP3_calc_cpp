@@ -8,6 +8,7 @@
 #include "Model.h"
 
 namespace s21 {
+    const std::string Model::ERROR = "ERROR";
 
     std::string Model::commonCalcStart(const std::string &expression, const std::string &x) {
         setlocale(LC_ALL, "en_US.UTF-8");
@@ -32,18 +33,21 @@ namespace s21 {
         std::list<std::string> operatorList;
 
 
-        for (size_t infix_count = 0, postfix_count = 0; infix_count < infix.size() && flag_status; ++infix_count) {
+        for (size_t infix_count = 0; infix_count < infix.size() && flag_status; ++infix_count) {
             char inf_letter = infix[infix_count];
             std::string operat = is_operator(infix, infix_count);
             if (isdigit(inf_letter)) { // digit check
-                posifix[postfix_count++] = inf_letter;
+                posifix.push_back(inf_letter);
                 if (infix_count + 1 < infix.size() &&
                     (!(isdigit(infix[infix_count + 1]) || infix[infix_count + 1] == '.'))) {
-                    posifix[postfix_count++] = ' ';
+                    posifix.push_back(' ');
+                }
+                if (infix_count == infix.size() - 1) {
+                    posifix.push_back(' ');
                 }
             } else if (inf_letter == '.') {
                 if (infix_count > 0 && isdigit(infix[infix_count - 1]) && isdigit(infix[infix_count + 1])) {
-                    posifix[postfix_count++] = inf_letter;
+                    posifix.push_back(inf_letter);
                 } else {
                     std::cout << "Dote is not correct!" << std::endl;
                     flag_status = false;
@@ -53,8 +57,8 @@ namespace s21 {
                     std::cout << "Dote is not correct!" << std::endl;
                     flag_status = false;
                 } else {
-                    posifix[postfix_count++] = inf_letter;
-                    posifix[postfix_count++] = ' ';
+                    posifix.push_back(inf_letter);
+                    posifix.push_back(' ');
                 }
             } else if (inf_letter == '(') {
                 operatorList.push_back(infix.substr(infix_count, 1));
@@ -65,9 +69,8 @@ namespace s21 {
                     if (last_operator == "(") {
                         isOpenBracket = true;
                     } else {
-                        posifix.insert(postfix_count, last_operator);
-                        postfix_count += last_operator.size();
-                        posifix[postfix_count++] = ' ';
+                        posifix.append(last_operator);
+                        posifix.push_back(' ');
                     }
                     operatorList.pop_back();
                 }
@@ -80,39 +83,38 @@ namespace s21 {
             } else if (operat != "!") { // операторы
                 if (isUnarOperator(operat, infix_count)) {
                     if (operat == "-") {
-                        posifix[postfix_count++] = inf_letter;
+                        posifix.push_back(inf_letter);
                     }
                 } else if (operat == "^") {
                     while (!operatorList.empty() && getPriority(operat) < getPriority(operatorList.back())) {
-                        posifix.insert(postfix_count, operatorList.back());
-                        postfix_count += operatorList.back().size();
-                        posifix[postfix_count++] = ' ';
+                        posifix.append(operatorList.back());
+                        posifix.push_back(' ');
                         operatorList.pop_back();
                     }
+                    operatorList.push_back(std::string(1, inf_letter));
                 } else {
                     while (!operatorList.empty() && getPriority(operat) <= getPriority(operatorList.back())) {
-                        posifix.insert(postfix_count, operatorList.back());
-                        postfix_count += operatorList.back().size();
-                        posifix[postfix_count++] = ' ';
+                        posifix.append(operatorList.back());
+                        posifix.push_back(' ');
                         operatorList.pop_back();
                     }
+                    operatorList.push_back(std::string(1, inf_letter));
                 }
             } else { // ничего не подходит
                 std::cout << "Wrong input from user!" << std::endl;
                 flag_status = false;
             }
 
-            if (flag_status) {
-                while (!operatorList.empty()) {
-                    posifix.insert(postfix_count, operatorList.back());
-                    postfix_count += operatorList.back().size();
-                    posifix[postfix_count++] = ' ';
-                    operatorList.pop_back();
-                }
-                posifix[postfix_count] = '\0';
 
+        }
+        if (flag_status) {
+            while (!operatorList.empty()) {
+                posifix.append(operatorList.back());
+                posifix.push_back(' ');
+                operatorList.pop_back();
             }
         }
+
         if (!flag_status) {
             posifix = ERROR;
         }
@@ -196,7 +198,7 @@ namespace s21 {
                operat == "atan" || operat == "ln" || operat == "lg" || operat == "sqrt";
     }
 
-    std::string Model::calculate(const std::string& posifix, const std::string &x) {
+    std::string Model::calculate(const std::string &posifix, const std::string &x) {
         std::string answer = ERROR;
         int flag_status = true;
         std::list<double> doubleList;
@@ -249,7 +251,7 @@ namespace s21 {
         if (!flag_status) {
             answer = ERROR;
         }
-
+        answer = std::to_string(doubleList.back());
         return answer;
     }
 

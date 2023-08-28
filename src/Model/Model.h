@@ -6,12 +6,18 @@
 #define CALC_CPP_MODEL_H
 
 #include <string>
+#include <vector>
+#include <list>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <cmath>
 
 namespace s21 {
 
     class Model {
     public:
-        static const std::string ERROR = "ERROR";
+        static const std::string ERROR;
         std::string commonCalcStart(const std::string &expression, const std::string &x);
 
 

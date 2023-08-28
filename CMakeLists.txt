@@ -11,5 +11,5 @@ add_executable(CPP3_calc_plus
         src/Controller/Controller.h
         src/Model/Model.cc
         src/Model/Model.h
-        src/Model/test.cc)
+        src/Model/go.cc)
 
