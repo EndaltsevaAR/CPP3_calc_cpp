@@ -347,7 +347,7 @@ TEST_F(ModelTest, s21_calc_x_wrong_test) {
     std::string result = model.commonCalcStart(expression, x);
     EXPECT_EQ(result, s21::Model::ERROR);
 }
-/*
+
 // sin
 TEST_F(ModelTest, s21_calc_sin_cos_1_test) {
     std::string expression1 = "sin(x)";
@@ -356,8 +356,8 @@ TEST_F(ModelTest, s21_calc_sin_cos_1_test) {
         std::string x = std::to_string(number);
         std::string result1 = model.commonCalcStart(expression1, x);
         std::string result2 = model.commonCalcStart(expression2, x);
-        EXPECT_EQ(result1, std::to_string(std::sin(number)));
-        EXPECT_EQ(result2, std::to_string(std::cos(number)));
+        EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::sin(number))));
+        EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::cos(number))));
     }
 }
 
@@ -368,8 +368,8 @@ TEST_F(ModelTest, s21_calc_sin_cos_2_test) {
         std::string x = std::to_string(number);
         std::string result1 = model.commonCalcStart(expression1, x);
         std::string result2 = model.commonCalcStart(expression2, x);
-        EXPECT_EQ(result1, std::to_string(std::sin(number)));
-        EXPECT_EQ(result2, std::to_string(std::cos(number)));
+        EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::sin(number))));
+        EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::cos(number))));
     }
 }
 
@@ -378,8 +378,8 @@ TEST_F(ModelTest, s21_calc_sin_cos_3_test) {
     std::string expression2 = "cos(12345.87654321)";
     std::string result1 = model.commonCalcStart(expression1, X);
     std::string result2 = model.commonCalcStart(expression2, X);
-    EXPECT_EQ(result1, std::to_string(sin(12345.87654321)));
-    EXPECT_EQ(result2, std::to_string(cos(12345.87654321)));
+    EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::sin(12345.87654321))));
+    EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::cos(12345.87654321))));
 }
 
 TEST_F(ModelTest, s21_calc_sin_cos_4_test) {
@@ -388,18 +388,18 @@ TEST_F(ModelTest, s21_calc_sin_cos_4_test) {
     std::string x = std::to_string(M_PI * 100);
     std::string result1 = model.commonCalcStart(expression1, x);
     std::string result2 = model.commonCalcStart(expression2, x);
-    EXPECT_EQ(result1, std::to_string(sin(M_PI * 100)));
-    EXPECT_EQ(result2, std::to_string(cos(M_PI * 100)));
+    EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::sin(M_PI * 100))));
+    EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::cos(M_PI * 100))));
 }
-
+//
 TEST_F(ModelTest, s21_calc_sin_cos_5_test) {
     std::string expression1 = "sin(x)";
     std::string expression2 = "cos(x)";
     std::string x = std::to_string(-M_PI * 100);
     std::string result1 = model.commonCalcStart(expression1, x);
     std::string result2 = model.commonCalcStart(expression2, x);
-    EXPECT_EQ(result1, std::to_string(sin(-M_PI * 100)));
-    EXPECT_EQ(result2, std::to_string(cos(-M_PI * 100)));
+    EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::sin(-M_PI * 100))));
+    EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::cos(-M_PI * 100))));
 }
 
 TEST_F(ModelTest, s21_calc_sin_cos_6_test) {
@@ -407,8 +407,8 @@ TEST_F(ModelTest, s21_calc_sin_cos_6_test) {
     std::string expression2 = "cos(1234567891.234567)";
     std::string result1 = model.commonCalcStart(expression1, X);
     std::string result2 = model.commonCalcStart(expression2, X);
-    EXPECT_EQ(result1, std::to_string(sin(1234567891.234567)));
-    EXPECT_EQ(result2, std::to_string(cos(1234567891.234567)));
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::ERROR);
 }
 
 TEST_F(ModelTest, s21_calc_sin_cos_7_test) {
@@ -416,8 +416,8 @@ TEST_F(ModelTest, s21_calc_sin_cos_7_test) {
     std::string expression2 = "cos(-1234567891.234567)";
     std::string result1 = model.commonCalcStart(expression1, X);
     std::string result2 = model.commonCalcStart(expression2, X);
-    EXPECT_EQ(result1, std::to_string(sin(-1234567891.234567)));
-    EXPECT_EQ(result2, std::to_string(cos(-1234567891.234567)));
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::ERROR);
 }
 
 TEST_F(ModelTest, s21_calc_sin_cos_8_test) {
@@ -427,8 +427,8 @@ TEST_F(ModelTest, s21_calc_sin_cos_8_test) {
         std::string x = std::to_string(number);
         std::string result1 = model.commonCalcStart(expression1, x);
         std::string result2 = model.commonCalcStart(expression2, x);
-        EXPECT_EQ(result1, std::to_string(std::sin(number)));
-        EXPECT_EQ(result2, std::to_string(std::cos(number)));
+        EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::sin(number))));
+        EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::cos(number))));
     }
 }
 
@@ -439,8 +439,8 @@ TEST_F(ModelTest, s21_calc_sin_9_test) {
         std::string x = std::to_string(number);
         std::string result1 = model.commonCalcStart(expression1, x);
         std::string result2 = model.commonCalcStart(expression2, x);
-        EXPECT_EQ(result1, std::to_string(std::sin(number)));
-        EXPECT_EQ(result2, std::to_string(std::cos(number)));
+        EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::sin(number))));
+        EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::cos(number))));
     }
 }
 
@@ -481,7 +481,7 @@ TEST_F(ModelTest, s21_calc_asin_acos_2_test) {
         std::string result2 = model.commonCalcStart(expression2, x);
         std::string answer1 = s21::Model::ERROR;
         std::string answer2 = s21::Model::ERROR;
-        if (std::fabs(number) < 1) {
+        if (std::fabs(number) <= 1) {
             answer1 = std::to_string(std::asin(number));
             answer2 = std::to_string(std::acos(number));
         }
@@ -577,15 +577,26 @@ TEST_F(ModelTest, s21_calc_tan_0_test) {
     EXPECT_EQ(result, std::to_string(std::tan(0)));
 }
 
+TEST_F(ModelTest, s21_calc_tan_atan_0_test) {
+    std::string expression1 = "tan(x)";
+    std::string expression2 = "atan(x)";
+    std::string x = std::to_string(M_PI_2);
+    std::string result1 = model.commonCalcStart(expression1, x);
+    std::string result2 = model.commonCalcStart(expression2, x);
+    EXPECT_EQ(result1, s21::Model::ERROR);
+    EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::atan(M_PI_2))));
+}
+
+
 TEST_F(ModelTest, s21_calc_tan_atan_1_test) {
     std::string expression1 = "tan(x)";
     std::string expression2 = "atan(x)";
-    for (double number = -2 * M_PI; number <= 2 * M_PI; number += M_PI_2) {
+    for (double number = -2 * M_PI; number <= 2 * M_PI; number += M_PI) {
         std::string x = std::to_string(number);
         std::string result1 = model.commonCalcStart(expression1, x);
         std::string result2 = model.commonCalcStart(expression2, x);
-        EXPECT_EQ(result1, std::to_string(std::tan(number)));
-        EXPECT_EQ(result2, std::to_string(std::atan(number)));
+        EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::tan(number))));
+        EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::atan(number))));
     }
 }
 
@@ -626,8 +637,8 @@ TEST_F(ModelTest, s21_calc_tan_atan_5_test) {
     std::string x = std::to_string(-M_PI * 100);
     std::string result1 = model.commonCalcStart(expression1, x);
     std::string result2 = model.commonCalcStart(expression2, x);
-    EXPECT_EQ(result1, std::to_string(std::tan(-M_PI * 100)));
-    EXPECT_EQ(result2, std::to_string(std::atan(-M_PI * 100)));
+    EXPECT_EQ(result1, s21::Model::zeroIsZero(std::to_string(std::tan(-M_PI * 100))));
+    EXPECT_EQ(result2, s21::Model::zeroIsZero(std::to_string(std::atan(-M_PI * 100))));
 }
 
 TEST_F(ModelTest, s21_calc_tan_atan_6_test) {
@@ -680,6 +691,7 @@ TEST_F(ModelTest, s21_calc_tan_atan_10_test) {
     EXPECT_EQ(result1, s21::Model::ERROR);
     EXPECT_EQ(result2, s21::Model::ERROR);
 }
+
 
 // log + ln
 
@@ -1468,9 +1480,6 @@ TEST_F(ModelTest, s21_calc_pow_mul_test) {
     std::string result = model.commonCalcStart(expression, X);
     EXPECT_EQ(result, "72.000000");
 }
-*/
-
-
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);

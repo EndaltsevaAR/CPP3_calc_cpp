@@ -32,17 +32,12 @@ namespace s21 {
         std::string posifix;
         std::list<std::string> operatorList;
 
-
         for (size_t infix_count = 0; infix_count < infix.size() && flag_status; ++infix_count) {
             char inf_letter = infix[infix_count];
-            std::string operat = is_operator(infix, infix_count);
+
             if (isdigit(inf_letter)) { // digit check
                 posifix.push_back(inf_letter);
-                if (infix_count + 1 < infix.size() &&
-                    (!(isdigit(infix[infix_count + 1]) || infix[infix_count + 1] == '.'))) {
-                    posifix.push_back(' ');
-                }
-                if (infix_count == infix.size() - 1) {
+                if (isNextLetterDigitableOrEmpty(infix, infix_count)) {
                     posifix.push_back(' ');
                 }
             } else if (inf_letter == '.') {
@@ -54,76 +49,51 @@ namespace s21 {
                 }
             } else if (inf_letter == 'x' || inf_letter == 'p') {
                 if (!is_string_number(x)) {
-                    std::cout << "Dote is not correct!" << std::endl;
+                    std::cout << "X is not correct!" << std::endl;
                     flag_status = false;
                 } else {
                     posifix.push_back(inf_letter);
                     posifix.push_back(' ');
                 }
             } else if (inf_letter == '(') {
-                operatorList.push_back("(");
+                operatorList.emplace_back("(");
             } else if (inf_letter == ')') {
-                bool isOpenBracket = false;
-                while (!operatorList.empty() && !isOpenBracket) {
-                    std::string last_operator = operatorList.back();
-                    if (last_operator == "(") {
-                        isOpenBracket = true;
-                    } else {
-                        posifix.append(last_operator);
-                        posifix.push_back(' ');
-                    }
-                    operatorList.pop_back();
-                }
-                if (operatorList.empty() && !isOpenBracket) {
-                    std::cout << "You have problem with brackets!" << std::endl;
-                    flag_status = false;
-                }
+                flag_status = findOpenBracket(posifix, operatorList, true);
             } else if (inf_letter == ' ') {
                 continue;
-            } else if (operat != "!") { // операторы
-                if (isUnarOperator(infix, infix_count)) {
-                    if (operat == "-") {
-                        posifix.push_back(inf_letter);
+            } else {
+                std::string operat = is_operator(infix, infix_count);
+                if (operat != "!") { // операторы
+                    if (isUnarOperator(infix, infix_count)) {
+                        if (operat == "-") {
+                            posifix.push_back(inf_letter);
+                        }
+                    } else if (operat == "^") {
+                        while (!operatorList.empty() && getPriority(operat) < getPriority(operatorList.back())) {
+                            pop_top_operation(posifix, operatorList);
+                        }
+                        operatorList.emplace_back(operat);
+                    } else {
+                        while (!operatorList.empty() && getPriority(operat) <= getPriority(operatorList.back())) {
+                            pop_top_operation(posifix, operatorList);
+                        }
+                        operatorList.emplace_back(operat);
                     }
-                } else if (operat == "^") {
-                    while (!operatorList.empty() && getPriority(operat) < getPriority(operatorList.back())) {
-                        posifix.append(operatorList.back());
-                        posifix.push_back(' ');
-                        operatorList.pop_back();
-                    }
-                    operatorList.push_back(std::string(1, inf_letter));
-                } else {
-                    while (!operatorList.empty() && getPriority(operat) <= getPriority(operatorList.back())) {
-                        posifix.append(operatorList.back());
-                        posifix.push_back(' ');
-                        operatorList.pop_back();
-                    }
-                    operatorList.push_back(std::string(1, inf_letter));
-                }
-            } else { // ничего не подходит
-                std::cout << "Wrong input from user!" << std::endl;
-                flag_status = false;
-            }
-
-
-        }
-        if (flag_status) {
-            while (!operatorList.empty() && flag_status) {
-                if (operatorList.back() == "(") {
-                    std::cout << "There is just open bracket!" << std::endl;
+                    infix_count += operat.size() - 1;
+                } else { // ничего не подходит
+                    std::cout << "Wrong input from user!" << std::endl;
                     flag_status = false;
-                } else {
-                    posifix.append(operatorList.back());
-                    posifix.push_back(' ');
-                    operatorList.pop_back();
                 }
             }
+        }
+
+        if (flag_status && !operatorList.empty()) {
+            flag_status = findOpenBracket(posifix, operatorList, false);
         }
 
         if (!flag_status) {
             posifix = ERROR;
         }
-
         return posifix;
     }
 
@@ -164,7 +134,7 @@ namespace s21 {
         for (size_t funcLength = 4; funcLength >= 2 && !is_find; --funcLength) {
             if (infix.size() - i >= funcLength) {
                 std::string subInfix = infix.substr(i, funcLength);
-                if (isEngineeringFunction(operat) || operat == "mod") {
+                if (isEngineeringFunction(subInfix) || operat == "mod") {
                     is_find = true;
                     operat = subInfix;
                 }
@@ -193,8 +163,9 @@ namespace s21 {
         bool isUnar = false;
         if (infix[count] == '+' || infix[count] == '-') {
             if (((count > 0 && (is_one_letter_operator(infix[count - 1]) || infix[count - 1] == '(')) ||
-                 count == 0) && (count + 1 < infix.size() && (isdigit(infix[count + 1]) || infix[count + 1] == 'x' ||
-                                                              infix[count + 1] == 'p'))) {
+                 count == 0) &&
+                (count + 1 < infix.size() && (isdigit(infix[count + 1]) || infix[count + 1] == 'x' ||
+                                              infix[count + 1] == 'p'))) {
                 isUnar = true;
             }
         }
@@ -213,8 +184,6 @@ namespace s21 {
 
         std::vector<std::string> tokens = tokenizeString(posifix); // вместо стрток
 
-
-
         for (auto it = tokens.begin(); it != tokens.end() && flag_status; ++it) {
             if (*it == "p") {
                 doubleList.push_back(M_PI);
@@ -226,7 +195,7 @@ namespace s21 {
                 }
             } else if (is_string_number(*it)) {
                 doubleList.push_back(std::stod(*it));
-            }  else {
+            } else {
                 double oper_result = 0.0;
                 double operand2;
                 if (!doubleList.empty()) {
@@ -255,7 +224,7 @@ namespace s21 {
             }
         }
 
-        if (doubleList.size() != 1) {
+        if (doubleList.size() != 1 && flag_status) {
             std::cout << "There is not enough operators or functions" << std::endl;
             flag_status = false;
         }
@@ -264,6 +233,7 @@ namespace s21 {
             answer = ERROR;
         } else {
             answer = std::to_string(doubleList.back());
+            answer = zeroIsZero(answer);
         }
 
         return answer;
@@ -329,7 +299,11 @@ namespace s21 {
 
     bool Model::doOneOperator(std::string &operat, double operand, double *answer) const {
         bool flag_status = true;
-        if (operat == "sin") {
+        if (std::fabs(operand) >
+            MAX_NUMBER) {  // согласно реадми ограничиваем область определения  функции от -1000000 до 1000000
+            std::cout << "X for function  is too much small/big" << std::endl;
+            flag_status = false;
+        } else if (operat == "sin") {
             *answer = std::sin(operand);
         } else if (operat == "cos") {
             *answer = std::cos(operand);
@@ -373,7 +347,61 @@ namespace s21 {
                 *answer = std::log(operand);
             }
         }
+        if (flag_status && std::fabs(*answer) > MAX_NUMBER) {
+            std::cout << "Result of one of function  is too much small/big" << std::endl;
+            flag_status = false;
+        }
         return flag_status;
+    }
+
+    bool Model::isNextLetterDigitableOrEmpty(const std::string &infix, size_t infix_count) {
+        bool status = false;
+        if (infix_count == infix.size() - 1) {
+            status = true;
+        } else if (infix_count + 1 < infix.size() &&
+                   (!(isdigit(infix[infix_count + 1]) || infix[infix_count + 1] == '.'))) {
+            status = true;
+        }
+        return status;
+    }
+
+    bool Model::findOpenBracket(std::string &posifix, std::list<std::string> &operatorList, bool isCloseBracket) {
+        bool status = true;
+        bool isOpenBracket = false;
+        while (!operatorList.empty() && status && !isOpenBracket) {
+            std::string last_operator = operatorList.back();
+            if (last_operator == "(") {
+                if (!isCloseBracket) {
+                    std::cout << "You have problem with brackets!" << std::endl;
+                    status = false;
+                }
+                isOpenBracket = true;
+            } else {
+                posifix.append(last_operator);
+                posifix.push_back(' ');
+            }
+            operatorList.pop_back();
+        }
+        if (isCloseBracket) {
+            if (operatorList.empty() && !isOpenBracket) {
+                std::cout << "You have problem with brackets!" << std::endl;
+                status = false;
+            }
+        }
+        return status;
+    }
+
+    void Model::pop_top_operation(std::string &posifix, std::list<std::string> &operatorList) {
+        posifix.append(operatorList.back());
+        posifix.push_back(' ');
+        operatorList.pop_back();
+    }
+
+    std::string Model::zeroIsZero(std::string expression) {
+        if (expression == "-0.000000") {
+            expression = "0.000000";
+        }
+        return expression;
     }
 
 
