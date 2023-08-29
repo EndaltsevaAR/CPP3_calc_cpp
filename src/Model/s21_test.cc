@@ -20,6 +20,12 @@ protected:
 
 // common operations
 // good tests
+TEST_F(ModelTest, s21_calc_just_double_numb_test) {
+    std::string expression = "2.0";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, "2.000000");
+}
+
 TEST_F(ModelTest, s21_calc_just_numb_test) {
     std::string expression = "2";
     std::string result = model.commonCalcStart(expression, X);
@@ -120,6 +126,12 @@ TEST_F(ModelTest, s21_calc_simple_div_test) {
     std::string expression = "6/3";
     std::string result = model.commonCalcStart(expression, X);
     EXPECT_EQ(result, "2.000000");
+}
+
+TEST_F(ModelTest, s21_calc_simple_div_2_test) {
+    std::string expression = "6/4";
+    std::string result = model.commonCalcStart(expression, X);
+    EXPECT_EQ(result, "1.500000");
 }
 
 TEST_F(ModelTest, s21_calc_simple_div_minus_numb_test) {
@@ -869,7 +881,7 @@ TEST_F(ModelTest, s21_calc_mod_3_test) {
 TEST_F(ModelTest, s21_calc_mod_4_test) {
     std::string expression = "1.0 mod 0.0";
     std::string result = model.commonCalcStart(expression, X);
-    EXPECT_EQ(result, std::to_string(std::fmod(1.0, 0.0)));
+    EXPECT_EQ(result, s21::Model::ERROR);
 }
 
 TEST_F(ModelTest, s21_calc_mod_5_test) {
@@ -1255,7 +1267,7 @@ TEST_F(ModelTest, s21_calc_pow_26_test) {
 
 TEST_F(ModelTest, s21_calc_pow_27_test) {
     std::string expression = "-2.2 ^ x";
-    for (double number = 2.0; number < 5.0; number += 1.0) {
+    for (double number = 2.2; number < 5.0; number += 1.1) {
         std::string x = std::to_string(number);
         std::string result = model.commonCalcStart(expression, x);
         EXPECT_EQ(result, s21::Model::ERROR);
@@ -1288,9 +1300,9 @@ TEST_F(ModelTest, s21_calc_comp_good_1_test) {
 }
 
 TEST_F(ModelTest, s21_calc_comp_good_2_test) {
-    std::string expression = "(3 + 4) * 2 / (6 - 2)";
+    std::string expression = "(3 + 4) * 2.0 / (6 - 2)";
     std::string result = model.commonCalcStart(expression, X);
-    double answer = (3 + 4) * 2 / (6 - 2); // 3.5
+    double answer = (3 + 4) * 2.0 / (6 - 2); // 3.5
     EXPECT_EQ(result, std::to_string(answer));
 }
 
@@ -1319,28 +1331,28 @@ TEST_F(ModelTest, s21_calc_comp_good_6_test) {
     std::string expression = "sin(1.0) + ln(10.0) - log(100.0) + 2.0^3.0 mod 5.0";
     std::string result = model.commonCalcStart(expression, X);
     double answer =  std::sin(1.0) + std::log(10.0) - std::log10(100.0) + std::fmod(std::pow(2.0, 3.0), 5.0); // 4.143
-    EXPECT_EQ(result, std::to_string(answer));
+    EXPECT_EQ(result, s21::Model::zeroIsZero(std::to_string(answer)));
 }
 
 TEST_F(ModelTest, s21_calc_comp_good_7_test) {
     std::string expression = "cos(0.5) * log(1000.0) - sqrt(25.0) + 2.0^4.0 mod 3.0";
     std::string result = model.commonCalcStart(expression, X);
     double answer =  std::cos(0.5) * std::log10(1000.0) - std::sqrt(25.0) + std::fmod(std::pow(2.0, 4.0), 3.0); // -1.369
-    EXPECT_EQ(result, std::to_string(answer));
+    EXPECT_EQ(result, s21::Model::zeroIsZero(std::to_string(answer)));
 }
 
 TEST_F(ModelTest, s21_calc_comp_good_8_test) {
     std::string expression = "(log(10000.0) - sin(0.75) + sqrt(16.0) + 3.0^3.0) mod 7.0";
     std::string result = model.commonCalcStart(expression, X);
     double answer =  std::fmod(log10(10000.0) - std::sin(0.75) + std::sqrt(16.0) + (std::pow(3.0, 3.0)), 7.0); // 6.319
-    EXPECT_EQ(result, std::to_string(answer));
+    EXPECT_EQ(result, s21::Model::zeroIsZero(std::to_string(answer)));
 }
 
 TEST_F(ModelTest, s21_calc_comp_good_9_test) {
     std::string expression = "sin(cos(tan(0)))";
     std::string result = model.commonCalcStart(expression, X);
     double answer =  std::sin(std::cos(std::tan(0))); // 0.84147
-    EXPECT_EQ(result, std::to_string(answer));
+    EXPECT_EQ(result, s21::Model::zeroIsZero(std::to_string(answer)));
 }
 
 // error tests
@@ -1428,7 +1440,7 @@ TEST_F(ModelTest, s21_calc_pi_9_test) {
 TEST_F(ModelTest, s21_calc_pi_10_test) {
     std::string expression = "tan(p)";
     std::string result = model.commonCalcStart(expression, X);
-    EXPECT_EQ(result, std::to_string(std::tan(M_PI)));
+    EXPECT_EQ(result, s21::Model::zeroIsZero(std::to_string(std::tan(M_PI))));
 }
 
 TEST_F(ModelTest, s21_calc_pi_11_test) {

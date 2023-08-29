@@ -134,7 +134,7 @@ namespace s21 {
         for (size_t funcLength = 4; funcLength >= 2 && !is_find; --funcLength) {
             if (infix.size() - i >= funcLength) {
                 std::string subInfix = infix.substr(i, funcLength);
-                if (isEngineeringFunction(subInfix) || operat == "mod") {
+                if (isEngineeringFunction(subInfix) || subInfix == "mod") {
                     is_find = true;
                     operat = subInfix;
                 }
@@ -174,7 +174,7 @@ namespace s21 {
 
     bool Model::isEngineeringFunction(const std::string &operat) {
         return operat == "sin" || operat == "cos" || operat == "tan" || operat == "acos" || operat == "asin" ||
-               operat == "atan" || operat == "ln" || operat == "lg" || operat == "sqrt";
+               operat == "atan" || operat == "ln" || operat == "log" || operat == "sqrt";
     }
 
     std::string Model::calculate(const std::string &posifix, const std::string &x) {
@@ -273,7 +273,7 @@ namespace s21 {
                 std::cout << "Error: division by zero" << std::endl;
                 flag_status = false;
             } else {
-                *answer = operand1 / operand2;
+                *answer = 1.0 * operand1 / operand2;
             }
         } else if (operat == "mod") {
             if (operand2 == 0) {
@@ -333,14 +333,14 @@ namespace s21 {
                 *answer = std::sqrt(operand);
             }
         } else if (operat == "log") {
-            if (operand < s21_EPS_TEST) {
+            if (operand < 0) {
                 std::cout << "X must be greater than 0" << std::endl;
                 flag_status = false;
             } else {
                 *answer = std::log10(operand);
             }
         } else if (operat == "ln") {
-            if (operand < s21_EPS_TEST) {
+            if (operand < 0) {
                 std::cout << "X must be greater than 0" << std::endl;
                 flag_status = false;
             } else {
