@@ -1,10 +1,8 @@
 #include <gtest/gtest.h>
 
-#include <vector>
+
 #include <list>
-#include <iostream>
 #include <string>
-#include <sstream>
 #include <cmath>
 
 #define X "3.14"

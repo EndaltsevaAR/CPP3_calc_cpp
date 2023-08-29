@@ -45,7 +45,7 @@ For more than a week now, you've been helping Chris Espinosa rewrite an object-o
 
 ## Introduction
 
-In this project you’ll need to implement an extended version of the standard calculator in C++ in the object-oriented programming paradigm, implementing the same functions as the previously developed application in SmartCalc v1.0 project. In addition to basic arithmetic operations such as add/subtract and multiply/divide, you need to supplement the calculator with the ability to calculate arithmetic expressions by following the order, as well as some mathematical functions (sine, cosine, logarithm, etc.). Besides calculating expressions, it should also support the use of the _x_ variable and the graphing of the corresponding function. As for other improvements you can consider a credit and deposit calculator.
+In this project you’ll need to implement an extended version of the standard calculator in C++ in the object-oriented programming paradigm, implementing the same functions as the previously developed application in SmartCalc v1.0 project. In addition to basic arithmetic operations such as add/subtract and multiply/divide, you need to supplement the calculator with the ability to calculateResult arithmetic expressions by following the order, as well as some mathematical functions (sine, cosine, logarithm, etc.). Besides calculating expressions, it should also support the use of the _x_ variable and the graphing of the corresponding function. As for other improvements you can consider a credit and deposit calculator.
 
 
 ## Chapter II

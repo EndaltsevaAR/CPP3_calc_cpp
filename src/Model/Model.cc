@@ -12,43 +12,39 @@ namespace s21 {
 
     std::string Model::commonCalcStart(const std::string &expression, const std::string &x) {
         setlocale(LC_ALL, "en_US.UTF-8");
-        std::string answer;
         if (expression.size() > STACK_SIZE) {
-            std::cout << "Expression is to much long!" << std::endl;
+            std::cout << "Expression is too long!" << std::endl;
             return ERROR;
         }
-
-        answer = to_posifix(expression, x);
+        std::string  answer = convertToPosifix(expression, x);
         if (answer != ERROR) {
-            answer = calculate(answer, x);
+            answer = calculateResult(answer, x);
         }
-
-
         return answer;
     }
 
-    std::string Model::to_posifix(const std::string &infix, const std::string &x) {
+    std::string Model::convertToPosifix(const std::string &expression, const std::string &x) {
         bool flag_status = true;
         std::string posifix;
         std::list<std::string> operatorList;
 
-        for (size_t infix_count = 0; infix_count < infix.size() && flag_status; ++infix_count) {
-            char inf_letter = infix[infix_count];
+        for (size_t infix_count = 0; infix_count < expression.size() && flag_status; ++infix_count) {
+            char inf_letter = expression[infix_count];
 
             if (isdigit(inf_letter)) { // digit check
                 posifix.push_back(inf_letter);
-                if (isNextLetterDigitableOrEmpty(infix, infix_count)) {
+                if (isNextLetterDigitableOrEmpty(expression, infix_count)) {
                     posifix.push_back(' ');
                 }
             } else if (inf_letter == '.') {
-                if (infix_count > 0 && isdigit(infix[infix_count - 1]) && isdigit(infix[infix_count + 1])) {
+                if (infix_count > 0 && isdigit(expression[infix_count - 1]) && isdigit(expression[infix_count + 1])) {
                     posifix.push_back(inf_letter);
                 } else {
                     std::cout << "Dote is not correct!" << std::endl;
                     flag_status = false;
                 }
             } else if (inf_letter == 'x' || inf_letter == 'p') {
-                if (!is_string_number(x)) {
+                if (!isStringNumber(x)) {
                     std::cout << "X is not correct!" << std::endl;
                     flag_status = false;
                 } else {
@@ -62,20 +58,22 @@ namespace s21 {
             } else if (inf_letter == ' ') {
                 continue;
             } else {
-                std::string operat = is_operator(infix, infix_count);
+                flag_status = handleOperator(posifix, expression, infix_count, operatorList);
+                /*
+                std::string operat = isOperator(expression, infix_count);
                 if (operat != "!") { // операторы
-                    if (isUnarOperator(infix, infix_count)) {
+                    if (isUnarOperator(expression, infix_count)) {
                         if (operat == "-") {
                             posifix.push_back(inf_letter);
                         }
                     } else if (operat == "^") {
                         while (!operatorList.empty() && getPriority(operat) < getPriority(operatorList.back())) {
-                            pop_top_operation(posifix, operatorList);
+                            popTopOperation(posifix, operatorList);
                         }
                         operatorList.emplace_back(operat);
                     } else {
                         while (!operatorList.empty() && getPriority(operat) <= getPriority(operatorList.back())) {
-                            pop_top_operation(posifix, operatorList);
+                            popTopOperation(posifix, operatorList);
                         }
                         operatorList.emplace_back(operat);
                     }
@@ -84,6 +82,7 @@ namespace s21 {
                     std::cout << "Wrong input from user!" << std::endl;
                     flag_status = false;
                 }
+                 */
             }
         }
 
@@ -97,87 +96,7 @@ namespace s21 {
         return posifix;
     }
 
-    bool Model::is_string_number(const std::string &expression) {
-        bool is_number = true;
-        bool has_dot = false;
-        if (!(isdigit(expression[0]) || expression[0] == 'x' || (expression[0] == '-' && expression.size() != 1))) {
-            is_number = false;
-        }
-        for (size_t i = 1; i < expression.size() && is_number; ++i) {
-            if (expression[i] == '.' && !has_dot) {
-                has_dot = true;
-            } else if (!isdigit(expression[i])) {
-                is_number = false;
-            }
-        }
-        return is_number;
-    }
-
-    std::string Model::is_operator(const std::string &infix, size_t i) {
-        std::string operat = "!";
-        if (is_one_letter_operator(infix[i])) {
-            operat = infix.substr(i, 1);
-        } else {
-            operat = get_function(infix, i);
-        }
-        return operat;
-    }
-
-    bool Model::is_one_letter_operator(const char &letter) {
-        return (letter == '+' || letter == '-' || letter == '*'
-                || letter == '/' || letter == '%' || letter == '^');
-    }
-
-    std::string Model::get_function(const std::string &infix, size_t i) {
-        std::string operat = "!";
-        bool is_find = false;
-        for (size_t funcLength = 4; funcLength >= 2 && !is_find; --funcLength) {
-            if (infix.size() - i >= funcLength) {
-                std::string subInfix = infix.substr(i, funcLength);
-                if (isEngineeringFunction(subInfix) || subInfix == "mod") {
-                    is_find = true;
-                    operat = subInfix;
-                }
-            }
-        }
-        return operat;
-    }
-
-
-    int Model::getPriority(const std::string &operat) {
-        int priority = -1;
-        if (operat == "+" || operat == "-") {
-            priority = 1;
-        } else if (operat == "*" || operat == "/" || operat == "mod") {
-            priority = 2;
-        } else if (operat == "^") {
-            priority = 3;
-        } else if (isEngineeringFunction(operat)) {
-            priority = 4;
-        }
-        return priority;
-    }
-
-
-    bool Model::isUnarOperator(std::string infix, size_t count) {
-        bool isUnar = false;
-        if (infix[count] == '+' || infix[count] == '-') {
-            if (((count > 0 && (is_one_letter_operator(infix[count - 1]) || infix[count - 1] == '(')) ||
-                 count == 0) &&
-                (count + 1 < infix.size() && (isdigit(infix[count + 1]) || infix[count + 1] == 'x' ||
-                                              infix[count + 1] == 'p'))) {
-                isUnar = true;
-            }
-        }
-        return isUnar;
-    }
-
-    bool Model::isEngineeringFunction(const std::string &operat) {
-        return operat == "sin" || operat == "cos" || operat == "tan" || operat == "acos" || operat == "asin" ||
-               operat == "atan" || operat == "ln" || operat == "log" || operat == "sqrt";
-    }
-
-    std::string Model::calculate(const std::string &posifix, const std::string &x) {
+    std::string Model::calculateResult(const std::string &posifix, const std::string &x) {
         std::string answer = ERROR;
         int flag_status = true;
         std::list<double> doubleList;
@@ -193,7 +112,7 @@ namespace s21 {
                 } else {
                     doubleList.push_back(std::stod(x));
                 }
-            } else if (is_string_number(*it)) {
+            } else if (isStringNumber(*it)) {
                 doubleList.push_back(std::stod(*it));
             } else {
                 double oper_result = 0.0;
@@ -239,6 +158,114 @@ namespace s21 {
         return answer;
     }
 
+    bool Model::handleOperator(std::string& posifix, const std::string& expression, size_t& infix_count, std::list<std::string>& operatorList) {
+        bool flag_status = true;
+        std::string operat = isOperator(expression, infix_count);
+        char inf_letter = expression[infix_count];
+        if (operat != "!") { // операторы
+            if (isUnarOperator(expression, infix_count)) {
+                if (operat == "-") {
+                    posifix.push_back(inf_letter);
+                }
+            } else if (operat == "^") {
+                while (!operatorList.empty() && getPriority(operat) < getPriority(operatorList.back())) {
+                    popTopOperation(posifix, operatorList);
+                }
+                operatorList.emplace_back(operat);
+            } else {
+                while (!operatorList.empty() && getPriority(operat) <= getPriority(operatorList.back())) {
+                    popTopOperation(posifix, operatorList);
+                }
+                operatorList.emplace_back(operat);
+            }
+            infix_count += operat.size() - 1;
+        } else { // ничего не подходит
+            std::cout << "Wrong input from user!" << std::endl;
+            flag_status = false;
+        }
+        return flag_status;
+    }
+
+    bool Model::isStringNumber(const std::string &expression) {
+        bool is_number = true;
+        bool has_dot = false;
+        if (!(isdigit(expression[0]) || expression[0] == 'x' || (expression[0] == '-' && expression.size() != 1))) {
+            is_number = false;
+        }
+        for (size_t i = 1; i < expression.size() && is_number; ++i) {
+            if (expression[i] == '.' && !has_dot) {
+                has_dot = true;
+            } else if (!isdigit(expression[i])) {
+                is_number = false;
+            }
+        }
+        return is_number;
+    }
+
+    std::string Model::isOperator(const std::string &infix, size_t i) {
+        std::string operat = "!";
+        if (isOneLetterOperator(infix[i])) {
+            operat = infix.substr(i, 1);
+        } else {
+            operat = getFunction(infix, i);
+        }
+        return operat;
+    }
+
+    bool Model::isOneLetterOperator(const char &letter) {
+        return (letter == '+' || letter == '-' || letter == '*'
+                || letter == '/' || letter == '%' || letter == '^');
+    }
+
+    std::string Model::getFunction(const std::string &infix, size_t i) {
+        std::string operat = "!";
+        bool is_find = false;
+        for (size_t funcLength = 4; funcLength >= 2 && !is_find; --funcLength) {
+            if (infix.size() - i >= funcLength) {
+                std::string subInfix = infix.substr(i, funcLength);
+                if (isEngineeringFunction(subInfix) || subInfix == "mod") {
+                    is_find = true;
+                    operat = subInfix;
+                }
+            }
+        }
+        return operat;
+    }
+
+
+    int Model::getPriority(const std::string &operat) {
+        int priority = -1;
+        if (operat == "+" || operat == "-") {
+            priority = 1;
+        } else if (operat == "*" || operat == "/" || operat == "mod") {
+            priority = 2;
+        } else if (operat == "^") {
+            priority = 3;
+        } else if (isEngineeringFunction(operat)) {
+            priority = 4;
+        }
+        return priority;
+    }
+
+
+    bool Model::isUnarOperator(std::string infix, size_t count) {
+        bool isUnar = false;
+        if (infix[count] == '+' || infix[count] == '-') {
+            if (((count > 0 && (isOneLetterOperator(infix[count - 1]) || infix[count - 1] == '(')) ||
+                 count == 0) &&
+                (count + 1 < infix.size() && (isdigit(infix[count + 1]) || infix[count + 1] == 'x' ||
+                                              infix[count + 1] == 'p'))) {
+                isUnar = true;
+            }
+        }
+        return isUnar;
+    }
+
+    bool Model::isEngineeringFunction(const std::string &operat) {
+        return operat == "sin" || operat == "cos" || operat == "tan" || operat == "acos" || operat == "asin" ||
+               operat == "atan" || operat == "ln" || operat == "log" || operat == "sqrt";
+    }
+
     std::vector<std::string> Model::tokenizeString(const std::string &posifix) {
         std::vector<std::string> tokens;
         std::istringstream iss(posifix);
@@ -250,7 +277,7 @@ namespace s21 {
     }
 
     bool Model::isOperatorTwoParametrs(std::string &token) {
-        return is_one_letter_operator(token[0]) || token == "mod";
+        return isOneLetterOperator(token[0]) || token == "mod";
     }
 
     bool Model::doTwoOperator(std::string &operat, double operand1, double operand2, double *answer) {
@@ -262,7 +289,7 @@ namespace s21 {
         } else if (operat == "*") {
             *answer = operand1 * operand2;
         } else if (operat == "^") {
-            if (is_correct_pow_arguments(operand1, operand2)) {
+            if (isCorrectPowArguments(operand1, operand2)) {
                 *answer = std::pow(operand1, operand2);
             } else {
                 std::cout << "There is not correct pow arguments" << std::endl;
@@ -286,7 +313,7 @@ namespace s21 {
         return flag_status;
     }
 
-    bool Model::is_correct_pow_arguments(double operand1, double operand2) const {
+    bool Model::isCorrectPowArguments(double operand1, double operand2) const {
         bool flag_status = true;
         // 0 в отрицательной степени  возвращает бесконечность
         // возведение в дабловскую степень отрицательное число - -nan
@@ -299,8 +326,7 @@ namespace s21 {
 
     bool Model::doOneOperator(std::string &operat, double operand, double *answer) const {
         bool flag_status = true;
-        if (std::fabs(operand) >
-            MAX_NUMBER) {  // согласно реадми ограничиваем область определения  функции от -1000000 до 1000000
+        if (std::fabs(operand) > MAX_NUMBER) {  //  область определения от -1000000 до 1000000
             std::cout << "X for function  is too much small/big" << std::endl;
             flag_status = false;
         } else if (operat == "sin") {
@@ -309,44 +335,27 @@ namespace s21 {
             *answer = std::cos(operand);
         } else if (operat == "tan") {
             *answer = std::tan(operand);
-        } else if (operat == "asin") {
+        } else if (operat == "asin" || operat == "acos") {
             if (fabs(operand) - 1.0 > s21_EPS_TEST) {  // значения х могут быть только в диапазоне [-1;1]
                 std::cout << "For a function x must be [-1;1]" << std::endl;
                 flag_status = false;
             } else {
-                *answer = std::asin(operand);
-            }
-        } else if (operat == "acos") {
-            if (fabs(operand) - 1.0 > s21_EPS_TEST) {  // значения х могут быть только в диапазоне [-1;1]
-                std::cout << "For a function x must be [-1;1]" << std::endl;
-                flag_status = false;
-            } else {
-                *answer = std::acos(operand);
+                if (operat == "asin") *answer = std::asin(operand);
+                else *answer = std::acos(operand);
             }
         } else if (operat == "atan") {
             *answer = std::atan(operand);
-        } else if (operat == "sqrt") {
-            if (operand < 0) {  // аргументы должен быть положительным числом или 0
-                std::cout << "X for sqrt must be greater than 0" << std::endl;
-                flag_status = false;
-            } else {
-                *answer = std::sqrt(operand);
-            }
-        } else if (operat == "log") {
+        } else if (operat == "sqrt" || operat == "log" || operat == "ln") {
             if (operand < 0) {
                 std::cout << "X must be greater than 0" << std::endl;
                 flag_status = false;
             } else {
-                *answer = std::log10(operand);
-            }
-        } else if (operat == "ln") {
-            if (operand < 0) {
-                std::cout << "X must be greater than 0" << std::endl;
-                flag_status = false;
-            } else {
-                *answer = std::log(operand);
+                if (operat == "sqrt") *answer = std::sqrt(operand);
+                else if (operat == "log") *answer = std::log10(operand);
+                else *answer = std::log(operand);
             }
         }
+
         if (flag_status && std::fabs(*answer) > MAX_NUMBER) {
             std::cout << "Result of one of function  is too much small/big" << std::endl;
             flag_status = false;
@@ -391,7 +400,7 @@ namespace s21 {
         return status;
     }
 
-    void Model::pop_top_operation(std::string &posifix, std::list<std::string> &operatorList) {
+    void Model::popTopOperation(std::string &posifix, std::list<std::string> &operatorList) {
         posifix.append(operatorList.back());
         posifix.push_back(' ');
         operatorList.pop_back();
@@ -403,6 +412,5 @@ namespace s21 {
         }
         return expression;
     }
-
 
 } // s21
