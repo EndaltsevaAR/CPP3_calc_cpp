@@ -249,6 +249,13 @@ TEST_F(ModelTest, s21_calc_just_letter_test) {
     EXPECT_EQ(result, s21::Model::ERROR);
 }
 
+TEST_F(ModelTest, s21_calc_just_letter_2_test) {
+    std::string expression = "x";
+    std::string x = "1u";
+    std::string result = model.commonCalcStart(expression, x);
+    EXPECT_EQ(result, s21::Model::ERROR);
+}
+
 TEST_F(ModelTest, s21_calc_just_operator_test) {
     std::string expression = "+";
     std::string result = model.commonCalcStart(expression, X);

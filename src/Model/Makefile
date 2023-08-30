@@ -29,7 +29,7 @@ valgrind: clean $(TARGET)
 	CK_FORK=no valgrind $(VALGRIND_FLAGS) --log-file=RESULT_VALGRIND.txt ./test
 
 gcov_report: clean
-	$(GCC) --coverage $(TEST_SRC) $(SRC) -o test $(LIBS)
+	$(GCC) --coverage $(TEST_SRC) $(SRC) -o test $(LIBS) -fno-elide-constructors
 	chmod +x test
 	./test
 	lcov -t "test" -o test.info --no-external -c -d .

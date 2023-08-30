@@ -25,11 +25,14 @@ namespace s21 {
         const double s21_EPS_TEST = 1e-7;
         const int MAX_NUMBER = 1000000;
 
-        std::string convertToPosifix(const std::string &expression, const std::string &x);
+        static std::string convertToPosifix(const std::string &expression, const std::string &x);
+        static void handleDigit(std::string& posifix, const std::string& expression, size_t& infix_count);
+        static bool handleDote(std::string& posifix, const std::string& expression, size_t& infix_count);
+        static bool handleXP(std::string& posifix, const std::string& x,  char inf_letter);
+        static bool handleOperator(std::string& posifix, const std::string& expression, size_t& infix_count, std::list<std::string>& operatorList);
 
         std::string calculateResult(const std::string& posifix, const std::string &x);
-
-        bool handleOperator(std::string& posifix, const std::string& expression, size_t& infix_count, std::list<std::string>& operatorList);
+        bool calculateMagicWithOperator(std::string &token, std::list<double> &doubleList);
 
         static bool isStringNumber(const std::string &expression);
 
