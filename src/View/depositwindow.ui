@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DepositWindow</class>
+ <widget class="QDialog" name="DepositWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>850</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Deposit calculator</string>
+  </property>
+  <widget class="Line" name="line_vert">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>70</y>
+     <width>20</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="push_deposit_calc">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>330</y>
+     <width>89</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Рассчитать</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_extra">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>320</y>
+     <width>231</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Дополнительные возможности</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line_goriz">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>370</y>
+     <width>341</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_warn_tax">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>380</y>
+     <width>351</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Обращаем Ваше внимание, что с 2023 года, необходимо платить налог на доход от вкладов сверхустановленной суммы в год</string>
+   </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>851</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_deposit">
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="label_deposit">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Депозитный калькулятор</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_input">
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Данные о вкладе</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_output">
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Результат расчета</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>80</y>
+     <width>411</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2_deposit">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_periodicity">
+      <property name="text">
+       <string>Периодичность выплаты/капитализации</string>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QDateEdit" name="date_input">
+      <property name="date">
+       <date>
+        <year>2024</year>
+        <month>5</month>
+        <day>23</day>
+       </date>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_input_date">
+      <property name="text">
+       <string>Дата размещения</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_time">
+      <property name="text">
+       <string>Срок, в месяцах</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QComboBox" name="combo_periodicity">
+      <property name="currentText">
+       <string>Ежедневно</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Ежедневно</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в неделю</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в месяц</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в квартал</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в год</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>В конце срока</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="line_rate">
+      <property name="placeholderText">
+       <string>9.5</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="QCheckBox" name="check_capitalization">
+      <property name="text">
+       <string>Капитализация процентов</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="line_time">
+      <property name="placeholderText">
+       <string>12</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLineEdit" name="line_sum">
+      <property name="placeholderText">
+       <string>1000</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_rate">
+      <property name="text">
+       <string>Ставка, в %</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_sum">
+      <property name="text">
+       <string>Сумма вклада</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>90</y>
+     <width>351</width>
+     <height>222</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_5_deposit">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>30</number>
+    </property>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_calc_tax_sum">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Сумма налога на проценты</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QDateEdit" name="date_output"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="label_calc_sum_tax_enter">
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+border:1px solid gray;
+background-color:#FFFFFF;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_calcul_perc">
+      <property name="text">
+       <string>Начисленные проценты</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLabel" name="label_calc_total_sum_perc_enter">
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+border:1px solid gray;
+background-color:#FFFFFF;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_calc_perc_enter">
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+border:1px solid gray;
+background-color:#FFFFFF;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" alignment="Qt::AlignVCenter">
+     <widget class="QLabel" name="label_output_date">
+      <property name="text">
+       <string>Дата снятия</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_total_sum_perc">
+      <property name="text">
+       <string>Итоговая сумма процентов</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>449</y>
+     <width>351</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_6_deposit">
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_sum_free_tax">
+      <property name="text">
+       <string>Сумма</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label_cb_rate">
+      <property name="text">
+       <string>Ставка ЦБ РФ, в %</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="label_total_free_sum">
+      <property name="text">
+       <string>Итого</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>490</y>
+     <width>351</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_7_deposit">
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QLineEdit" name="line_sum_free_tax">
+      <property name="placeholderText">
+       <string>1 000 000</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label_mul_sign">
+      <property name="text">
+       <string>*</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="line_cb_rate">
+      <property name="placeholderText">
+       <string>7.5</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QLabel" name="label_eq_sign">
+      <property name="text">
+       <string>=</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4">
+     <widget class="QLineEdit" name="line_total_free_sum">
+      <property name="placeholderText">
+       <string>75 000</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>500</x>
+     <y>540</y>
+     <width>261</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_8_deposit" columnstretch="2,1,0">
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="line_tax_rate">
+      <property name="placeholderText">
+       <string>13</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="label_tax_rate">
+      <property name="text">
+       <string>Налоговая ставка, в %</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>370</y>
+     <width>411</width>
+     <height>92</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_refill_deposit" columnstretch="1,0,0">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="line_refill_sum">
+      <property name="placeholderText">
+       <string>Сумма</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QDateEdit" name="date_refill_1"/>
+    </item>
+    <item row="1" column="0">
+     <widget class="QDateEdit" name="date_refill_2"/>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLineEdit" name="line_refill_sum_2">
+      <property name="placeholderText">
+       <string>Сумма</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QDateEdit" name="date_refill_3"/>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="line_refill_sum_3">
+      <property name="placeholderText">
+       <string>Сумма</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="combo_periodicity_refill_1">
+      <property name="currentText">
+       <string>Разовое</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Разовое</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Ежедневно</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в неделю</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в месяц</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в квартал</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в год</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="combo_periodicity_refill_2">
+      <property name="currentText">
+       <string>Разовое</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Разовое</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Ежедневно</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в неделю</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в месяц</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в квартал</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в год</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="combo_periodicity_refill_3">
+      <property name="currentText">
+       <string>Разовое</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Разовое</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Ежедневно</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в неделю</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в месяц</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в квартал</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в год</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="label_refill">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>340</y>
+     <width>118</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Пополнения</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_cut">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>460</y>
+     <width>118</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Снятия</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>490</y>
+     <width>411</width>
+     <height>92</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_cut_deposit" columnstretch="1,0,0">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <item row="0" column="2">
+     <widget class="QLineEdit" name="line_cut_sum_1">
+      <property name="placeholderText">
+       <string>Сумма</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QDateEdit" name="date_cut_2"/>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLineEdit" name="line_cut_sum_2">
+      <property name="placeholderText">
+       <string>Сумма</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QDateEdit" name="date_cut_3"/>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="line_cut_sum_3">
+      <property name="placeholderText">
+       <string>Сумма</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QDateEdit" name="date_cut_1"/>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="combo_periodicity_cut_1">
+      <property name="currentText">
+       <string>Разовое</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Разовое</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Ежедневно</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в неделю</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в месяц</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в квартал</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в год</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="combo_periodicity_cut_2">
+      <property name="currentText">
+       <string>Разовое</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Разовое</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Ежедневно</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в неделю</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в месяц</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в квартал</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в год</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="combo_periodicity_cut_3">
+      <property name="currentText">
+       <string>Разовое</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Разовое</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Ежедневно</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в неделю</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в месяц</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в квартал</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Раз в год</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

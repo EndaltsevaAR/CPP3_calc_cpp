@@ -9,6 +9,7 @@
 
 namespace s21 {
     const std::string Model::ERROR = "ERROR";
+    const std::string Model::X = "3.14";
 
     std::string Model::commonCalcStart(const std::string &expression, const std::string &x) {
         setlocale(LC_ALL, "en_US.UTF-8");

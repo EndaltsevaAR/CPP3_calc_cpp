@@ -5,15 +5,17 @@
 #ifndef CALC_CPP_MODEL_H
 #define CALC_CPP_MODEL_H
 
+#include <list>
 #include <string>
 #include <vector>
-#include <list>
 
 namespace s21 {
 
     class Model {
     public:
+        // static constants
         static const std::string ERROR;
+        static const std::string X;
 
         std::string commonCalcStart(const std::string &expression, const std::string &x);
         static std::string zeroIsZero(std::string expression);
@@ -21,10 +23,11 @@ namespace s21 {
 
     private:
         // static constants
-        const size_t STACK_SIZE = 255;
-        const double s21_EPS_TEST = 1e-7;
-        const int MAX_NUMBER = 1000000;
-
+        static const size_t STACK_SIZE = 255;
+        constexpr static const double s21_EPS_TEST = 1e-7;
+        static const int MAX_NUMBER = 1000000;
+        static const int WIDTH = 850;
+        static const int HEIGHT = 600;
         static std::string convertToPosifix(const std::string &expression, const std::string &x);
         static void handleDigit(std::string& posifix, const std::string& expression, size_t& infix_count);
         static bool handleDote(std::string& posifix, const std::string& expression, size_t& infix_count);
