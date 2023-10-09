@@ -4,11 +4,18 @@
 #include <list>
 #include <string>
 
-//#define X "3.14"
-
-#include "Model.h"
+#include "Model/Model.h"
+#include "Controller/Controller.h"
 
 using namespace s21;
+
+TEST(WithController, Controller) {
+    std::string expression = "2+1";
+    Controller controller;
+    std::string result = controller.startCommonCalculator(expression, s21::Model::X);
+    EXPECT_EQ(result, "3.000000");
+}
+
 
 class ModelTest : public testing::Test {
 protected:

@@ -4,10 +4,10 @@ LINUX = -lsubunit -lrt -lpthread -lm
 VALGRIND_FLAGS = --trace-children=yes --track-fds=yes --track-origins=yes --leak-check=full --show-leak-kinds=all --verbose
 OS = $(shell uname -s)
 
-SRC = Model.cc
+SRC = Model/Model.cc Controller/Controller.cc
 TEST_SRC = s21_test.cc
 TARGET = Model.a
-OBJ = $(SRC:.cc=.o)
+OBJ = Model.o Controller.o
 
 ifeq ($(OS), Linux)
 	LIBS += -lgmock -pthread

@@ -21,10 +21,7 @@ class CreditWindow : public QDialog {
  protected:
   void keyPressEvent(QKeyEvent *event);
   int is_string_digitable(const QString &expression);
-  // char *double_to_string(double number);
-  void print_results(double pay_d, double total_d, double over_d);
-  void annuitet_type(double sum_d, double time_d, double rate_d);
-  void differ_type(double sum_d, double time_d, double rate_d);
+  void print_results(std::vector<double> print_info);
 
  private:
   Ui::CreditWindow *ui;

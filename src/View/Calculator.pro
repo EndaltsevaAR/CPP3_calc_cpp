@@ -14,14 +14,16 @@ SOURCES += \
     depositwindow.cpp \
     main.cpp \
     mainwindow.cpp \
-    ../Controller/Controller.cc
+    ../Controller/Controller.cc \
+    ../Model/Model.cc
 
 HEADERS += \
     qcustomplot.h \
     creditwindow.h \
     depositwindow.h \
     mainwindow.h \
-    ../Controller/Controller.h
+    ../Controller/Controller.h \
+    ../Model/Model.h
 
 FORMS += \
     creditwindow.ui \

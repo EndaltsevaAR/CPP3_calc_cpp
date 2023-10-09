@@ -1,15 +1,10 @@
+#include <cmath>
 #include "Controller.h"
 
-namespace s21 {
+std::string s21::Controller::startCommonCalculator(const std::string &expression, const std::string &x) {
+    return model.commonCalcStart(expression, x);
+}
 
-    Controller::Controller() {
-        model = new s21::Model();
-    }
-
-    Controller::~Controller() = default;
-
-    std::string Controller::startCommonCalculator(const std::string &expression, const std::string &x) {
-        return model->commonCalcStart(expression, x);
-    }
-
-} // s21
+std::vector<double> s21::Controller::startCreditCalculator(int type, double sum_d, double time_d, double rate_d) {
+    return model.creditCalcStart(type, sum_d, time_d, rate_d);
+}

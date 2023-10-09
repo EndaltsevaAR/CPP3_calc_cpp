@@ -18,16 +18,15 @@ namespace s21 {
         static const std::string X;
 
         std::string commonCalcStart(const std::string &expression, const std::string &x);
+        std::vector<double> creditCalcStart(int type, double sum_d, double time_d, double rate_d);
         static std::string zeroIsZero(std::string expression);
-
 
     private:
         // static constants
         static const size_t STACK_SIZE = 255;
         constexpr static const double s21_EPS_TEST = 1e-7;
         static const int MAX_NUMBER = 1000000;
-        static const int WIDTH = 850;
-        static const int HEIGHT = 600;
+
         static std::string convertToPosifix(const std::string &expression, const std::string &x);
         static void handleDigit(std::string& posifix, const std::string& expression, size_t& infix_count);
         static bool handleDote(std::string& posifix, const std::string& expression, size_t& infix_count);
@@ -57,15 +56,17 @@ namespace s21 {
 
         bool doTwoOperator(std::string &operat, double operand1, double operand2, double *pDouble);
 
-        bool isCorrectPowArguments(double operand1, double operand2) const;
+        static bool isCorrectPowArguments(double operand1, double operand2) ;
 
-        bool doOneOperator(std::string &operat, double operand, double *answer) const;
+        static bool doOneOperator(std::string &operat, double operand, double *answer) ;
 
         static bool isNextLetterDigitableOrEmpty(const std::string &infix, size_t infix_count);
 
         static bool findOpenBracket(std::string &posifix, std::list<std::string> &operatorList, bool isCloseBracket);
 
         static void popTopOperation(std::string &posifix, std::list<std::string> &operatorList);
+
+
     };
 
 } // s21

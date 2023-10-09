@@ -1,15 +1,44 @@
-#include <vector>
+#include <cmath>
 #include <list>
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <cmath>
+#include <vector>
 
 #include "Model.h"
 
 namespace s21 {
     const std::string Model::ERROR = "ERROR";
     const std::string Model::X = "3.14";
+
+    std::vector<double>  Model::creditCalcStart(int type, double sum_d, double time_d, double rate_d) {
+        std::vector<double> print_info;
+        double pay_d, total_d, over_d;
+
+        if (type == 1) {
+            pay_d = sum_d * (rate_d / (100 * 12) /
+                                    (1 - std::pow(1 + rate_d / (100 * 12), -time_d)));
+            total_d = time_d * pay_d;
+            over_d = total_d - sum_d;
+        } else {
+            over_d = 0;
+            double month_rate = rate_d / (100 * 12);
+            double month_debt_pay = sum_d / time_d;
+            double month_perc_pay = 0;
+            pay_d = month_debt_pay + sum_d * month_rate;
+            total_d = sum_d;
+            for (int i = 0; i < time_d; i++) {
+                month_perc_pay = sum_d * month_rate;
+                over_d += month_perc_pay;
+                sum_d = sum_d - month_debt_pay;
+            }
+            total_d += over_d;
+        }
+        print_info.push_back(pay_d);
+        print_info.push_back(total_d);
+        print_info.push_back(over_d);
+        return print_info;
+    }
 
     std::string Model::commonCalcStart(const std::string &expression, const std::string &x) {
         setlocale(LC_ALL, "en_US.UTF-8");
@@ -313,7 +342,7 @@ namespace s21 {
         return flag_status;
     }
 
-    bool Model::isCorrectPowArguments(double operand1, double operand2) const {
+    bool Model::isCorrectPowArguments(double operand1, double operand2) {
         bool flag_status = true;
         // 0 в отрицательной степени  возвращает бесконечность
         // возведение в дабловскую степень отрицательное число - -nan
@@ -324,7 +353,7 @@ namespace s21 {
         return flag_status;
     }
 
-    bool Model::doOneOperator(std::string &operat, double operand, double *answer) const {
+    bool Model::doOneOperator(std::string &operat, double operand, double *answer) {
         bool flag_status = true;
         if (std::fabs(operand) > MAX_NUMBER) {  //  область определения от -1000000 до 1000000
             std::cout << "X for function  is too much small/big" << std::endl;

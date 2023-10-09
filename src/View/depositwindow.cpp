@@ -36,7 +36,7 @@ DepositWindow::DepositWindow(QWidget *parent)
 DepositWindow::~DepositWindow() { delete ui; }
 
 void DepositWindow::on_push_deposit_calc_clicked() {
-    /*
+
   int sum_error = 1, time_error = 1, rate_error = 1, tax_rate_error = 1;
   QString sum_text =
       check_argument(ui->line_sum->text(), INIT_SUM, 0, &sum_error);
@@ -142,11 +142,11 @@ void DepositWindow::on_push_deposit_calc_clicked() {
     }
     ui->date_output->setDate(output_date);
   } else {
-    ui->label_calc_perc_enter->setText(ERROR);
-    ui->label_calc_sum_tax_enter->setText(ERROR);
-    ui->label_calc_total_sum_perc_enter->setText(ERROR);
+    ui->label_calc_perc_enter->setText("ERROR");
+    ui->label_calc_sum_tax_enter->setText("ERROR");
+    ui->label_calc_total_sum_perc_enter->setText("ERROR");
   }
-  */
+
 }
 
 QString DepositWindow::check_argument(QString param_text, QString init_string,

@@ -24,7 +24,6 @@ class MainWindow : public QMainWindow {
 
  private:
   Ui::MainWindow *ui;
-  s21::Controller *controller;
 
  private slots:
   void is_restart();
@@ -39,5 +38,6 @@ class MainWindow : public QMainWindow {
   void clean_all();
   void on_actionCredit_Calculator_triggered();
   void on_actionDeposit_Calculator_triggered();
+
 };
 #endif  // MAINWINDOW_H

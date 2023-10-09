@@ -6,11 +6,12 @@
 #include "depositwindow.h"
 #include "ui_mainwindow.h"
 
+#include "../Controller/Controller.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-  controller = new s21::Controller();
 
   connect(ui->button_0, SIGNAL(clicked()), this, SLOT(digits_symbols()));
   connect(ui->button_1, SIGNAL(clicked()), this, SLOT(digits_symbols()));
@@ -55,7 +56,9 @@ MainWindow::MainWindow(QWidget *parent)
   ui->widget->yAxis->setLabel("Y");
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+    delete ui; }
+
 void MainWindow::paint_grath(QString input_text) {
   //   QString input = ui->label_input_enter->text();
   ui->widget->clearGraphs();
@@ -141,11 +144,10 @@ void MainWindow::equal_symbol() {
 }
 
 QString MainWindow::calculation_process(QString input_text, QString x_text) {
+  s21::Controller controller;
   if (x_text == "") {
-    x_text = "3.14";
-  }
-
-  return QString::fromStdString(controller->startCommonCalculator(input_text.toStdString(), x_text.toStdString()));
+    x_text = "3.14";  }
+  return QString::fromStdString(controller.startCommonCalculator(input_text.toStdString(), x_text.toStdString()));
 }
 
 void MainWindow::digits_symbols() {
@@ -225,3 +227,4 @@ void MainWindow::on_actionDeposit_Calculator_triggered() {
   deposit_window.setFixedSize(850, 600);
   deposit_window.exec();
 }
+
