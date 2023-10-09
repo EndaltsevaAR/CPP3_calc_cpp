@@ -16,6 +16,18 @@ TEST(WithController, Controller) {
     EXPECT_EQ(result, "3.000000");
 }
 
+TEST(AnnuitetCreditWithController, Controller) {
+    Controller controller;
+    std::vector<double> result = controller.startCreditCalculator(1, 1000, 12, 9.5);
+    EXPECT_EQ(result.size(), 3);
+}
+
+TEST(DifferCreditWithController, Controller) {
+    Controller controller;
+    std::vector<double> result = controller.startCreditCalculator(2, 1000, 12, 9.5);
+    EXPECT_EQ(result.size(), 3);
+}
+
 
 class ModelTest : public testing::Test {
 protected:
