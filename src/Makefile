@@ -13,7 +13,7 @@ ifeq ($(OS), Linux)
 	LIBS += -lgmock -pthread
 endif
 
-all: clean $(TARGET) test
+all: clean $(TARGET) valgrind gcov_report clean
 
 $(TARGET):
 	$(GCC) -c $(SRC)
