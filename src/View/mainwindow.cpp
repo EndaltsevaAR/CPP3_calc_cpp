@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
+  ui->widget->setInteraction(QCP::iRangeZoom, true);
+    ui->widget->setInteraction(QCP::iRangeDrag, true);
+
   connect(ui->button_0, SIGNAL(clicked()), this, SLOT(digits_symbols()));
   connect(ui->button_1, SIGNAL(clicked()), this, SLOT(digits_symbols()));
   connect(ui->button_2, SIGNAL(clicked()), this, SLOT(digits_symbols()));
@@ -217,14 +220,14 @@ void MainWindow::is_restart() {
 void MainWindow::on_actionCredit_Calculator_triggered() {
   CreditWindow credit_window;
   credit_window.setModal(true);
-  credit_window.setFixedSize(850, 600);
+ // credit_window.setFixedSize(850, 600);
   credit_window.exec();
 }
 
 void MainWindow::on_actionDeposit_Calculator_triggered() {
   DepositWindow deposit_window;
   deposit_window.setModal(true);
-  deposit_window.setFixedSize(850, 600);
+ // deposit_window.setFixedSize(850, 600);
   deposit_window.exec();
 }
 

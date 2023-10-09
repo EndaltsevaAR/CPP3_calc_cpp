@@ -15,12 +15,12 @@ namespace s21 {
         std::vector<double> print_info;
         double pay_d, total_d, over_d;
 
-        if (type == 1) {
+        if (type == 1) { // annuitet
             pay_d = sum_d * (rate_d / (100 * 12) /
                                     (1 - std::pow(1 + rate_d / (100 * 12), -time_d)));
             total_d = time_d * pay_d;
             over_d = total_d - sum_d;
-        } else {
+        } else {  // differ
             over_d = 0;
             double month_rate = rate_d / (100 * 12);
             double month_debt_pay = sum_d / time_d;

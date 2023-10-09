@@ -24,13 +24,13 @@ DepositWindow::DepositWindow(QWidget *parent)
   ui->date_input->setDate(QDate::currentDate());
   ui->date_output->setDate(QDate::currentDate());
 
-  ui->date_refill_1->setMinimumDate(ui->date_input->date());
-  ui->date_refill_2->setMinimumDate(ui->date_input->date());
-  ui->date_refill_3->setMinimumDate(ui->date_input->date());
+  ui->date_refill_1->setMinimumDate(QDate::currentDate());
+  ui->date_refill_2->setMinimumDate(QDate::currentDate());
+  ui->date_refill_3->setMinimumDate(QDate::currentDate());
 
-  ui->date_cut_1->setMinimumDate(ui->date_input->date());
-  ui->date_cut_2->setMinimumDate(ui->date_input->date());
-  ui->date_cut_3->setMinimumDate(ui->date_input->date());
+  ui->date_cut_1->setMinimumDate(QDate::currentDate());
+  ui->date_cut_2->setMinimumDate(QDate::currentDate());
+  ui->date_cut_3->setMinimumDate(QDate::currentDate());
 }
 
 DepositWindow::~DepositWindow() { delete ui; }
@@ -129,7 +129,7 @@ void DepositWindow::on_push_deposit_calc_clicked() {
     }
 
     // main part
-    if (!ui->check_capitalization->isChecked()) {  // without capitalization
+    if (!ui->check_capitalization->isChecked()) {
       calc_without_capitalization(
           sum_d, rate_d, tax_rate_d, free_sum_d, input_date, output_date,
           refill_errors, refill_next_dates, refill_sums, refill_periods,
@@ -174,13 +174,9 @@ int DepositWindow::is_param_int(double param_d) {
 }
 
 int DepositWindow::is_string_digitable(const QString &expression) {
-    std::cout << expression.size();
-    return 0;
-    /*
-  QByteArray byteArray = expression.toUtf8();
-  char *charArray = byteArray.data();
-  return is_string_number(charArray);
-  */
+    bool isDouble;
+    expression.toDouble(&isDouble);
+    return isDouble;
 }
 
 void DepositWindow::is_date_over(QDate refill_start_date, int *error,
