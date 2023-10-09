@@ -13,7 +13,28 @@ ifeq ($(OS), Linux)
 	LIBS += -lgmock -pthread
 endif
 
-all: clean $(TARGET) valgrind gcov_report clean
+all: install valgrind clean
+
+install:
+	make uninstall
+	cd ./View && qmake && make && mv Calculator ../Calculator
+	cd ./View && make distclean
+
+uninstall:
+	make clean
+	rm -f Calculator
+	rm -rf Dist_SmartCalc.tgz
+
+dvi:
+	open ./calc.html
+
+dist: install
+	rm -rf Dist_SmartCalc/
+	mkdir Dist_SmartCalc/
+	mkdir Dist_SmartCalc/src
+	mv Calculator Dist_SmartCalc/src/
+	tar cvzf Dist_SmartCalc.tgz Dist_SmartCalc/
+	rm -rf Dist_SmartCalc/
 
 $(TARGET):
 	$(GCC) -c $(SRC)
@@ -38,9 +59,15 @@ gcov_report: clean
 
 clang:
 	cp ../materials/linters/.clang-format ../src/.clang-format
-	clang-format -style=Google -i *.cc *.h
-	clang-format -style=Google -n *.cc *.h
+	clang-format -style=Google -i *.cc
+	clang-format -style=Google -n *.cc
 	rm .clang-format
+	cp ../materials/linters/.clang-format ../src/Controller/.clang-format
+	cd Controller && clang-format -style=Google -i *.cc *.h && clang-format -style=Google -n *.cc *.h && rm .clang-format
+	cp ../materials/linters/.clang-format ../src/Model/.clang-format
+	cd Model && clang-format -style=Google -i *.cc *.h && clang-format -style=Google -n *.cc *.h && rm .clang-format
+	cp ../materials/linters/.clang-format ../src/View/.clang-format
+	cd View && clang-format -style=Google -i *.cpp *.h && clang-format -style=Google -n *.cpp *.h && rm .clang-format
 
 clean:
 	rm -rf $(OBJ)

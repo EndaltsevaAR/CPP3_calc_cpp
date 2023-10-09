@@ -1,14 +1,14 @@
-#include <vector>
-#include <list>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <cmath>
-
 #include "depositwindow.h"
 
-#include "ui_depositwindow.h"
+#include <cmath>
+#include <iostream>
+#include <list>
+#include <sstream>
+#include <string>
+#include <vector>
+
 #include "../Controller/Controller.h"
+#include "ui_depositwindow.h"
 
 #define INIT_SUM "1000"
 #define INIT_RATE "9.5"
@@ -36,7 +36,6 @@ DepositWindow::DepositWindow(QWidget *parent)
 DepositWindow::~DepositWindow() { delete ui; }
 
 void DepositWindow::on_push_deposit_calc_clicked() {
-
   int sum_error = 1, time_error = 1, rate_error = 1, tax_rate_error = 1;
   QString sum_text =
       check_argument(ui->line_sum->text(), INIT_SUM, 0, &sum_error);
@@ -146,7 +145,6 @@ void DepositWindow::on_push_deposit_calc_clicked() {
     ui->label_calc_sum_tax_enter->setText("ERROR");
     ui->label_calc_total_sum_perc_enter->setText("ERROR");
   }
-
 }
 
 QString DepositWindow::check_argument(QString param_text, QString init_string,
@@ -174,9 +172,9 @@ int DepositWindow::is_param_int(double param_d) {
 }
 
 int DepositWindow::is_string_digitable(const QString &expression) {
-    bool isDouble;
-    expression.toDouble(&isDouble);
-    return isDouble;
+  bool isDouble;
+  expression.toDouble(&isDouble);
+  return isDouble;
 }
 
 void DepositWindow::is_date_over(QDate refill_start_date, int *error,

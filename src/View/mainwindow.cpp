@@ -2,19 +2,17 @@
 
 #include <QKeyEvent>
 
+#include "../Controller/Controller.h"
 #include "creditwindow.h"
 #include "depositwindow.h"
 #include "ui_mainwindow.h"
-
-#include "../Controller/Controller.h"
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
 
   ui->widget->setInteraction(QCP::iRangeZoom, true);
-    ui->widget->setInteraction(QCP::iRangeDrag, true);
+  ui->widget->setInteraction(QCP::iRangeDrag, true);
 
   connect(ui->button_0, SIGNAL(clicked()), this, SLOT(digits_symbols()));
   connect(ui->button_1, SIGNAL(clicked()), this, SLOT(digits_symbols()));
@@ -59,8 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
   ui->widget->yAxis->setLabel("Y");
 }
 
-MainWindow::~MainWindow() {
-    delete ui; }
+MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::paint_grath(QString input_text) {
   //   QString input = ui->label_input_enter->text();
@@ -149,8 +146,10 @@ void MainWindow::equal_symbol() {
 QString MainWindow::calculation_process(QString input_text, QString x_text) {
   s21::Controller controller;
   if (x_text == "") {
-    x_text = "3.14";  }
-  return QString::fromStdString(controller.startCommonCalculator(input_text.toStdString(), x_text.toStdString()));
+    x_text = "3.14";
+  }
+  return QString::fromStdString(controller.startCommonCalculator(
+      input_text.toStdString(), x_text.toStdString()));
 }
 
 void MainWindow::digits_symbols() {
@@ -220,14 +219,13 @@ void MainWindow::is_restart() {
 void MainWindow::on_actionCredit_Calculator_triggered() {
   CreditWindow credit_window;
   credit_window.setModal(true);
- // credit_window.setFixedSize(850, 600);
+  // credit_window.setFixedSize(850, 600);
   credit_window.exec();
 }
 
 void MainWindow::on_actionDeposit_Calculator_triggered() {
   DepositWindow deposit_window;
   deposit_window.setModal(true);
- // deposit_window.setFixedSize(850, 600);
+  // deposit_window.setFixedSize(850, 600);
   deposit_window.exec();
 }
-

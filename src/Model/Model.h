@@ -11,64 +11,77 @@
 
 namespace s21 {
 
-    class Model {
-    public:
-        // static constants
-        static const std::string ERROR;
-        static const std::string X;
+class Model {
+ public:
+  // static constants
+  static const std::string ERROR;
+  static const std::string X;
 
-        std::string commonCalcStart(const std::string &expression, const std::string &x);
-        std::vector<double> creditCalcStart(int type, double sum_d, double time_d, double rate_d);
-        static std::string zeroIsZero(std::string expression);
+  std::string commonCalcStart(const std::string &expression,
+                              const std::string &x);
+  std::vector<double> creditCalcStart(int type, double sum_d, double time_d,
+                                      double rate_d);
+  static std::string zeroIsZero(std::string expression);
 
-    private:
-        // static constants
-        static const size_t STACK_SIZE = 255;
-        constexpr static const double s21_EPS_TEST = 1e-7;
-        static const int MAX_NUMBER = 1000000;
+ private:
+  // static constants
+  static const size_t STACK_SIZE = 255;
+  constexpr static const double s21_EPS_TEST = 1e-7;
+  static const int MAX_NUMBER = 1000000;
 
-        static std::string convertToPosifix(const std::string &expression, const std::string &x);
-        static void handleDigit(std::string& posifix, const std::string& expression, size_t& infix_count);
-        static bool handleDote(std::string& posifix, const std::string& expression, size_t& infix_count);
-        static bool handleXP(std::string& posifix, const std::string& x,  char inf_letter);
-        static bool handleOperator(std::string& posifix, const std::string& expression, size_t& infix_count, std::list<std::string>& operatorList);
+  static std::string convertToPosifix(const std::string &expression,
+                                      const std::string &x);
+  static void handleDigit(std::string &posifix, const std::string &expression,
+                          size_t &infix_count);
+  static bool handleDote(std::string &posifix, const std::string &expression,
+                         size_t &infix_count);
+  static bool handleXP(std::string &posifix, const std::string &x,
+                       char inf_letter);
+  static bool handleOperator(std::string &posifix,
+                             const std::string &expression, size_t &infix_count,
+                             std::list<std::string> &operatorList);
 
-        std::string calculateResult(const std::string& posifix, const std::string &x);
-        bool calculateMagicWithOperator(std::string &token, std::list<double> &doubleList);
+  std::string calculateResult(const std::string &posifix, const std::string &x);
+  bool calculateMagicWithOperator(std::string &token,
+                                  std::list<double> &doubleList);
 
-        static bool isStringNumber(const std::string &expression);
+  static bool isStringNumber(const std::string &expression);
 
-        static std::string isOperator(const std::string &infix, size_t i);
+  static std::string isOperator(const std::string &infix, size_t i);
 
-        static bool isOneLetterOperator(const char &letter);
+  static bool isOneLetterOperator(const char &letter);
 
-        static std::string getFunction(const std::string &infix, size_t i);
+  static std::string getFunction(const std::string &infix, size_t i);
 
-        static int getPriority(const std::string& operat);
+  static int getPriority(const std::string &operat);
 
-        static bool isUnarOperator(std::string infix, size_t count);
+  static bool isUnarOperator(std::string infix, size_t count);
 
-        static bool isEngineeringFunction(const std::string &operat);
+  static bool isEngineeringFunction(const std::string &operat);
 
-        static std::vector<std::string> tokenizeString(const std::string& posifix);
+  static std::vector<std::string> tokenizeString(const std::string &posifix);
 
-        static bool isOperatorTwoParametrs(std::string &token);
+  static bool isOperatorTwoParametrs(std::string &token);
 
-        bool doTwoOperator(std::string &operat, double operand1, double operand2, double *pDouble);
+  bool doTwoOperator(std::string &operat, double operand1, double operand2,
+                     double *pDouble);
 
-        static bool isCorrectPowArguments(double operand1, double operand2) ;
+  static bool isCorrectPowArguments(double operand1, double operand2);
 
-        static bool doOneOperator(std::string &operat, double operand, double *answer) ;
+  static bool doOneOperator(std::string &operat, double operand,
+                            double *answer);
 
-        static bool isNextLetterDigitableOrEmpty(const std::string &infix, size_t infix_count);
+  static bool isNextLetterDigitableOrEmpty(const std::string &infix,
+                                           size_t infix_count);
 
-        static bool findOpenBracket(std::string &posifix, std::list<std::string> &operatorList, bool isCloseBracket);
+  static bool findOpenBracket(std::string &posifix,
+                              std::list<std::string> &operatorList,
+                              bool isCloseBracket);
 
-        static void popTopOperation(std::string &posifix, std::list<std::string> &operatorList);
+  static void popTopOperation(std::string &posifix,
+                              std::list<std::string> &operatorList);
+};
 
+}  // namespace s21
 
-    };
-
-} // s21
-
-#endif //CALC_CPP_MODEL_H
+#endif  // CALC_CPP_MODEL_H
